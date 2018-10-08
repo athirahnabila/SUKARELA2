@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "821710415730",
+    "firebase_url": "https://sukarelaapp.firebaseio.com",
+    "project_id": "sukarelaapp",
+    "storage_bucket": "sukarelaapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821710415730:android:02143d933165b286",
+        "android_client_info": {
+          "package_name": "com.example.robin.sukarela"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821710415730-jvjot6o6gqvbjht8tojjk0em0isobb10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8GOVjwwzvG2ynoFFnk48TOZqlG5Ege-E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
