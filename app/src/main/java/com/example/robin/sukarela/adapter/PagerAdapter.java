@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.robin.sukarela.DetailsFragment;
-import com.example.robin.sukarela.TaskFragment;
-import com.example.robin.sukarela.adapter.ContactFragment;
+import com.example.robin.sukarela.event.ContactFragment;
+import com.example.robin.sukarela.event.DetailsFragment;
+import com.example.robin.sukarela.event.TaskFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
 

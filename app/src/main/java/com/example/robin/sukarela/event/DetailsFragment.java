@@ -1,4 +1,4 @@
-package com.example.robin.sukarela.adapter;
+package com.example.robin.sukarela.event;
 
 import android.content.Context;
 import android.net.Uri;
@@ -14,12 +14,12 @@ import com.example.robin.sukarela.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ContactFragment.OnFragmentInteractionListener} interface
+ * {@link DetailsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ContactFragment#newInstance} factory method to
+ * Use the {@link DetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ContactFragment extends Fragment {
+public class DetailsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,7 +31,7 @@ public class ContactFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public ContactFragment() {
+    public DetailsFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +41,11 @@ public class ContactFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ContactFragment.
+     * @return A new instance of fragment DetailsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ContactFragment newInstance(String param1, String param2) {
-        ContactFragment fragment = new ContactFragment();
+    public static DetailsFragment newInstance(String param1, String param2) {
+        DetailsFragment fragment = new DetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +66,7 @@ public class ContactFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contact, container, false);
+        return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

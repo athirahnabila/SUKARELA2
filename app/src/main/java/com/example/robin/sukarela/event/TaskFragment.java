@@ -1,4 +1,4 @@
-package com.example.robin.sukarela;
+package com.example.robin.sukarela.event;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,18 +7,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import com.example.robin.sukarela.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link JoinFragment.OnFragmentInteractionListener} interface
+ * {@link TaskFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link JoinFragment#newInstance} factory method to
+ * Use the {@link TaskFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class JoinFragment extends Fragment {
+public class TaskFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +31,7 @@ public class JoinFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public JoinFragment() {
+    public TaskFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +41,11 @@ public class JoinFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment JoinFragment.
+     * @return A new instance of fragment TaskFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static JoinFragment newInstance(String param1, String param2) {
-        JoinFragment fragment = new JoinFragment();
+    public static TaskFragment newInstance(String param1, String param2) {
+        TaskFragment fragment = new TaskFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,7 +66,7 @@ public class JoinFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_join, container, false);
+        return inflater.inflate(R.layout.fragment_task, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -81,7 +82,8 @@ public class JoinFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(context, "JOIN", Toast.LENGTH_SHORT).show();
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 

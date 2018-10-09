@@ -1,40 +1,78 @@
 package com.example.robin.sukarela;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.example.robin.sukarela.main.HomeFragment;
+import com.example.robin.sukarela.main.JoinFragment;
+import com.example.robin.sukarela.main.ProfileFragment;
+import com.example.robin.sukarela.utility.Helper;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Toolbar mToolbar;
+    private BottomNavigationView mBottomBar;
+    private FragmentManager mFragmentManager;
 
+    // activity fragments
+    HomeFragment homeFragment = new HomeFragment();
+    JoinFragment joinFragment = new JoinFragment();
+    ProfileFragment profileFragment = new ProfileFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final EditText etUsername = (EditText) findViewById(R.id.etPhone);
-        final Button bRegister = (Button) findViewById(R.id.bRegister);
-        final Button bLogin = (Button) findViewById(R.id.bLogin);
+        mToolbar = findViewById(R.id.main_toolbar);
+        mBottomBar = findViewById(R.id.main_bottombar);
+        mFragmentManager = getSupportFragmentManager();
+    }
 
-        bLogin.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent loginIntent=new Intent(MainActivity.this, HomeActivity.class);
-                MainActivity.this.startActivity(loginIntent);
-            }
-        });
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-        bRegister.setOnClickListener(new View.OnClickListener(){
+        initUI();
+    }
+
+    private void initUI() {
+        setSupportActionBar(mToolbar);
+        updateFragment(homeFragment);
+
+        mBottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v){
-                Intent registerIntent=new Intent(MainActivity.this, RegisterActivity.class);
-                MainActivity.this.startActivity(registerIntent);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        updateFragment(homeFragment);
+                        break;
+
+                    case R.id.action_bookmark:
+                        updateFragment(joinFragment);
+                        break;
+
+                    case R.id.action_profile:
+                        updateFragment(profileFragment);
+                        break;
+                }
+
+                // always consume
+                return true;
             }
         });
     }
 
+    private void updateFragment(Fragment fragment) {
+        if (fragment != null) {
+            mFragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+        }
+    }
 }
