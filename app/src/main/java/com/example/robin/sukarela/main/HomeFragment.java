@@ -18,9 +18,6 @@ import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.adapter.EventAdapter;
 import com.example.robin.sukarela.model.Event;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class HomeFragment extends Fragment implements AdapterView.OnItemClickListener {
 
@@ -44,11 +41,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Event.EVENTS.add(new Event(R.drawable.pic1,"Ekplorasi Deria", description, "10 Mac 2018"));
-        Event.EVENTS.add(new Event(R.drawable.pic2,"Ekplorasi Deria", description, "10 Mac 2018"));
-        Event.EVENTS.add(new Event(R.drawable.pic3,"Ekplorasi Deria", description, "10 Mac 2018"));
-        Event.EVENTS.add(new Event(R.drawable.pic4,"Ekplorasi Deria", description, "10 Mac 2018"));
-        Event.EVENTS.add(new Event(R.drawable.pic5,"Ekplorasi Deria", description, "10 Mac 2018"));
+        Event.EVENTS.add(new Event(R.drawable.pic1, "Ekplorasi Deria", description, "10 Mac 2018"));
+        Event.EVENTS.add(new Event(R.drawable.pic2, "Ekplorasi Deria", description, "10 Mac 2018"));
+        Event.EVENTS.add(new Event(R.drawable.pic3, "Ekplorasi Deria", description, "10 Mac 2018"));
+        Event.EVENTS.add(new Event(R.drawable.pic4, "Ekplorasi Deria", description, "10 Mac 2018"));
+        Event.EVENTS.add(new Event(R.drawable.pic5, "Ekplorasi Deria", description, "10 Mac 2018"));
 
         ListView listView = view.findViewById(R.id.listv);
         EventAdapter adapter = new EventAdapter(getActivity());

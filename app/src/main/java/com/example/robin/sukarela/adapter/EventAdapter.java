@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.model.Event;
 
-import java.util.List;
-
 public class EventAdapter extends ArrayAdapter {
 
     private Context mContext;
