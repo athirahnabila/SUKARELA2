@@ -1,12 +1,17 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/white</item>
 
         <item name="android:textColorSecondary">@color/white</item>
         <item name="actionMenuTextColor">@color/white</item>
+    </style>
+
+    <style name="AppTheme.TextSubDetail" parent="AppTheme">
+        <item name="android:textColor">@color/cyan_800</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
 </resources>
