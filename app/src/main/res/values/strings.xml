@@ -11,4 +11,7 @@
     <string name="text_description">just image description</string>
     <string name="text_title">Kasi pecah</string>
     <string name="text_date_event">23 Nov 2018</string>
+    <string name="text_home">Home</string>
+    <string name="text_join">Join</string>
+    <string name="text_profile">Profile</string>
 </resources>

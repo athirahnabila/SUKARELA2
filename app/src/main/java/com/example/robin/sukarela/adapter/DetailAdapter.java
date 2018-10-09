@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.robin.sukarela.event.ContactFragment;
-import com.example.robin.sukarela.event.DetailsFragment;
+import com.example.robin.sukarela.event.DetailFragment;
 import com.example.robin.sukarela.event.TaskFragment;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class DetailAdapter extends FragmentStatePagerAdapter {
     private List<String> mTitles;
 
     private ContactFragment contactFragment;
-    private DetailsFragment detailsFragment;
+    private DetailFragment detailsFragment;
     private TaskFragment taskFragment;
 
     public DetailAdapter(FragmentManager fm) {
@@ -39,7 +39,7 @@ public class DetailAdapter extends FragmentStatePagerAdapter {
 
     private void initFragment(){
         contactFragment = new ContactFragment();
-        detailsFragment = new DetailsFragment();
+        detailsFragment = new DetailFragment();
         taskFragment = new TaskFragment();
     }
 

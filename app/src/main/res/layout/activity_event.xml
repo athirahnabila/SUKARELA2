@@ -17,6 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        app:tabTextColor="#ccffffff"
+        app:tabSelectedTextColor="@color/white"
         android:minHeight="?android:attr/actionBarSize"/>
 
     <android.support.v4.view.ViewPager

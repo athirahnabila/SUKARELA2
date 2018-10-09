@@ -1,21 +1,20 @@
 package com.example.robin.sukarela;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.robin.sukarela.adapter.DetailAdapter;
-import com.example.robin.sukarela.event.ContactFragment;
-import com.example.robin.sukarela.event.DetailsFragment;
-import com.example.robin.sukarela.event.TaskFragment;
-import com.example.robin.sukarela.main.HomeFragment;
 import com.example.robin.sukarela.model.Event;
 
-public class EventActivity extends AppCompatActivity implements DetailsFragment.OnFragmentInteractionListener, ContactFragment.OnFragmentInteractionListener, TaskFragment.OnFragmentInteractionListener {
+public class EventActivity extends AppCompatActivity {
+
+    public static int event_index;
 
     Event mEvent;
     DetailAdapter mAdapter;
@@ -32,18 +31,6 @@ public class EventActivity extends AppCompatActivity implements DetailsFragment.
         mTabLayout = findViewById(R.id.event_tab);
         mViewPager = findViewById(R.id.event_pager);
         mToolbar = findViewById(R.id.include_toolbar);
-
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-
-        if (bundle != null) {
-            mAdapter = new DetailAdapter(getSupportFragmentManager());
-            mEvent = Event.EVENTS.get(bundle.getInt("position"));
-        }
-
-        if (mEvent != null) {
-            setTitle(mEvent.getTitle());
-        }
     }
 
     @Override
@@ -53,15 +40,40 @@ public class EventActivity extends AppCompatActivity implements DetailsFragment.
         initUI();
     }
 
-    private void initUI() {
-        setSupportActionBar(mToolbar);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.event_menu, menu);
 
-        mViewPager.setAdapter(mAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
 
+            case R.id.action_join:
+                break;
+        }
+
+        return true;
+    }
+
+    private void initUI() {
+        setSupportActionBar(mToolbar);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if (bundle != null) {
+            mAdapter = new DetailAdapter(getSupportFragmentManager());
+            event_index = bundle.getInt("position");
+        }
+
+        if (mEvent != null) {
+            setTitle(mEvent.getTitle());
+        }
+
+        mViewPager.setAdapter(mAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 }
