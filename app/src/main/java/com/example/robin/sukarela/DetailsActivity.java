@@ -6,6 +6,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.robin.sukarela.adapter.ContactFragment;
+import com.example.robin.sukarela.adapter.PagerAdapter;
+
 public class DetailsActivity extends AppCompatActivity implements DetailsFragment.OnFragmentInteractionListener,TaskFragment.OnFragmentInteractionListener,ContactFragment.OnFragmentInteractionListener{
 
 

@@ -1,4 +1,4 @@
-package com.example.robin.sukarela;
+package com.example.robin.sukarela.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.robin.sukarela.R;
+
 public class CustomAdapter extends ArrayAdapter<String> {
 
     String [] descp;
@@ -18,7 +20,7 @@ public class CustomAdapter extends ArrayAdapter<String> {
     Context mContext;
 
     public CustomAdapter(Context context, String[] disc, String[] tarikh, int[] images){
-        super(context,R.layout.customlayout);
+        super(context, R.layout.customlayout);
         this.descp=disc;
         this.pic=images;
         this.date=tarikh;

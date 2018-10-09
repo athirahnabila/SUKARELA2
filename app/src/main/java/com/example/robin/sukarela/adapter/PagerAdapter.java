@@ -1,8 +1,12 @@
-package com.example.robin.sukarela;
+package com.example.robin.sukarela.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.example.robin.sukarela.DetailsFragment;
+import com.example.robin.sukarela.TaskFragment;
+import com.example.robin.sukarela.adapter.ContactFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
