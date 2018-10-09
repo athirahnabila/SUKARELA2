@@ -44,15 +44,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        List<Event> list = new ArrayList<>();
-        list.add(new Event(R.drawable.pic1,"Ekplorasi Deria", description, "10 Mac 2018"));
-        list.add(new Event(R.drawable.pic2,"Ekplorasi Deria", description, "10 Mac 2018"));
-        list.add(new Event(R.drawable.pic3,"Ekplorasi Deria", description, "10 Mac 2018"));
-        list.add(new Event(R.drawable.pic4,"Ekplorasi Deria", description, "10 Mac 2018"));
-        list.add(new Event(R.drawable.pic5,"Ekplorasi Deria", description, "10 Mac 2018"));
+        Event.EVENTS.add(new Event(R.drawable.pic1,"Ekplorasi Deria", description, "10 Mac 2018"));
+        Event.EVENTS.add(new Event(R.drawable.pic2,"Ekplorasi Deria", description, "10 Mac 2018"));
+        Event.EVENTS.add(new Event(R.drawable.pic3,"Ekplorasi Deria", description, "10 Mac 2018"));
+        Event.EVENTS.add(new Event(R.drawable.pic4,"Ekplorasi Deria", description, "10 Mac 2018"));
+        Event.EVENTS.add(new Event(R.drawable.pic5,"Ekplorasi Deria", description, "10 Mac 2018"));
 
         ListView listView = view.findViewById(R.id.listv);
-        EventAdapter adapter = new EventAdapter(getActivity(), list);
+        EventAdapter adapter = new EventAdapter(getActivity());
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
@@ -84,8 +83,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent mIntent = new Intent(getActivity(), EventActivity.class);
-        startActivity(mIntent);
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+
+        Intent intent = new Intent(getActivity(), EventActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public interface OnFragmentInteractionListener {

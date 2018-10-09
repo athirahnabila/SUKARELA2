@@ -2,9 +2,13 @@ package com.example.robin.sukarela.model;
 
 import com.example.robin.sukarela.utility.Helper;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Event {
+
+    public static final List<Event> EVENTS = new ArrayList<>();
 
     private int image;
 
@@ -13,7 +17,9 @@ public class Event {
     private String date_posted;
     private String date_event;
 
-    private boolean status;
+    private Status status;
+
+    enum Status {Completed, Ongoing, Cancelled}
 
     public Event(int image, String title, String description, String date_event) {
         this.image = image;
@@ -61,11 +67,11 @@ public class Event {
         this.date_event = date_event;
     }
 
-    public boolean isStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 }

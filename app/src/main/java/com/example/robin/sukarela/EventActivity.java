@@ -1,10 +1,12 @@
 package com.example.robin.sukarela;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.robin.sukarela.event.ContactFragment;
 import com.example.robin.sukarela.adapter.PagerAdapter;
@@ -18,6 +20,15 @@ public class EventActivity extends AppCompatActivity implements DetailsFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if (bundle != null){
+            Toast.makeText(this, "position : " + bundle.getInt("position"), Toast.LENGTH_SHORT).show();
+        }
+
+
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("DETAIL"));

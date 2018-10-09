@@ -17,28 +17,24 @@ import java.util.List;
 
 public class EventAdapter extends ArrayAdapter {
 
-
-
     private Context mContext;
-    private List<Event> mList;
 
-    public EventAdapter(Context context, List<Event> events) {
+    public EventAdapter(Context context) {
         super(context, R.layout.item_event);
 
-        mList = events;
         mContext = context;
     }
 
     @Override
     public int getCount() {
-        return mList.size();
+        return Event.EVENTS.size();
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // current item model
-        Event event = mList.get(position);
+        Event event = Event.EVENTS.get(position);
 
         // create item view holder
         ViewHolder vh = new ViewHolder();
