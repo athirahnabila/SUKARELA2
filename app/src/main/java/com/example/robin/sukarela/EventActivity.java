@@ -61,8 +61,8 @@ public class EventActivity extends AppCompatActivity {
     private void initUI() {
         setSupportActionBar(mToolbar);
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
 
         if (bundle != null) {
             mAdapter = new DetailAdapter(getSupportFragmentManager());
