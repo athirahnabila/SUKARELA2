@@ -23,6 +23,7 @@ public class EventAdapter extends ArrayAdapter {
         mContext = context;
     }
 
+
     @Override
     public int getCount() {
         return Event.EVENTS.size();

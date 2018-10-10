@@ -61,8 +61,6 @@ public class TaskAdapter extends ArrayAdapter{
             vh.textTask.setText(task.getTitle());
         }
 
-
-
         return convertView;
     }
 

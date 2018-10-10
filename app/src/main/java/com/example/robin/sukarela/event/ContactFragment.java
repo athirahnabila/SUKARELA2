@@ -40,6 +40,7 @@ public class ContactFragment extends Fragment {
             }
         });
 
+
         ImageView imageView2 = (ImageView) view.findViewById(R.id.ivws);
 
         imageView2.setOnClickListener(new View.OnClickListener() {

@@ -15,6 +15,7 @@ import com.example.robin.sukarela.model.Event;
 
 public class EventActivity extends AppCompatActivity {
 
+
     public static int event_index;
 
     Event mEvent;

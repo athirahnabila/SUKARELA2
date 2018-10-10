@@ -6,6 +6,7 @@ public class Task {
 
     private boolean status;
 
+
     public Task(String title, String description) {
         this.title = title;
         this.description = description;
