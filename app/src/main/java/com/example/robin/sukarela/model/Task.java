@@ -10,7 +10,6 @@ public class Task {
         this.title = title;
         this.description = description;
 
-
     }
 
 
@@ -29,7 +28,6 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 
     public boolean isStatus() {

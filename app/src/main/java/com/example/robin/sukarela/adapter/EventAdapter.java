@@ -50,7 +50,7 @@ public class EventAdapter extends ArrayAdapter {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        vh.image.setImageResource(event.getImage());
+       // vh.image.setImageResource(event.getImage());
         vh.text_title.setText(event.getTitle());
         vh.text_date_event.setText(event.getDate_event());
 

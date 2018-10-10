@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.robin.sukarela.R;
@@ -67,7 +69,18 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        EditText text1 = (EditText) view.findViewById(R.id.etName);
+        EditText text2 = (EditText) view.findViewById(R.id.etAge);
+        EditText text3 = (EditText) view.findViewById(R.id.etPhone);
+
+
+        text1.setText("Ali Bin Ahmad");
+        text2.setText("65");
+        text3.setText("0123456789");
+
+            return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

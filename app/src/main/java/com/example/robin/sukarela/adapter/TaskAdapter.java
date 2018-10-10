@@ -14,7 +14,7 @@ import com.example.robin.sukarela.model.Task;
 
 import java.util.List;
 
-public class TaskAdapter extends ArrayAdapter {
+public class TaskAdapter extends ArrayAdapter{
 
 
 
