@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Event {
+public class ItemEvent {
 
-    public static final List<Event> EVENTS = new ArrayList<>();
+    public static final List<ItemEvent> EVENTS = new ArrayList<>();
 
     private int image;
 
@@ -21,7 +21,7 @@ public class Event {
 
     enum Status {Completed, Ongoing, Cancelled}
 
-    public Event(int image, String title, String description, String date_event) {
+    public ItemEvent(int image, String title, String description, String date_event) {
         this.image = image;
         this.title = title;
         this.description = description;

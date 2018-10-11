@@ -7,19 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.robin.sukarela.EventActivity;
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.model.Task;
+import com.example.robin.sukarela.model.ItemTask;
 
 import java.util.List;
 
-public class TaskAdapter extends ArrayAdapter<Task> {
+public class TaskAdapter extends ArrayAdapter<ItemTask> {
 
     private Context mContext;
-    private List<Task> mList;
+    private List<ItemTask> mList;
 
-    public TaskAdapter(Context context, List<Task> events) {
+    public TaskAdapter(Context context, List<ItemTask> events) {
         super(context, R.layout.item_task, events);
 
         mList = events;
@@ -35,7 +37,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // current item model
-        Task task = mList.get(position);
+        ItemTask task = mList.get(position);
 
         // create item view holder
         TaskAdapter.ViewHolder vh = new TaskAdapter.ViewHolder();
@@ -49,12 +51,19 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
             vh.textTask = convertView.findViewById(R.id.task_text_title);
             vh.textDesc = convertView.findViewById(R.id.task_text_description);
-        }else {
+            vh.button_select = convertView.findViewById(R.id.task_button_select);
+        } else {
             vh = (ViewHolder) convertView.getTag();
         }
 
         vh.textTask.setText(task.getTitle());
         vh.textDesc.setText(task.getDescription());
+
+        if (EventActivity.join) {
+            vh.button_select.setVisibility(View.VISIBLE);
+        } else {
+            vh.button_select.setVisibility(View.INVISIBLE);
+        }
 
         return convertView;
     }
@@ -63,6 +72,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
         TextView textTask;
         TextView textDesc;
+        Button button_select;
     }
 }
 

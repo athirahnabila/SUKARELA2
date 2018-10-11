@@ -56,7 +56,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="3dp"
         android:layout_marginStart="16dp"
-        android:src="@drawable/ws"
+        android:src="@drawable/whatsapp"
         app:layout_constraintBottom_toTopOf="@+id/ivtele"
         app:layout_constraintEnd_toStartOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="parent"

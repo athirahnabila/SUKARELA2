@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.model.Event;
+import com.example.robin.sukarela.model.ItemEvent;
 
 public class EventAdapter extends ArrayAdapter {
 
@@ -26,14 +26,14 @@ public class EventAdapter extends ArrayAdapter {
 
     @Override
     public int getCount() {
-        return Event.EVENTS.size();
+        return ItemEvent.EVENTS.size();
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // current item model
-        Event event = Event.EVENTS.get(position);
+        ItemEvent event = ItemEvent.EVENTS.get(position);
 
         // create item view holder
         ViewHolder vh = new ViewHolder();

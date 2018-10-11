@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.robin.sukarela.EventActivity;
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.model.Event;
+import com.example.robin.sukarela.model.ItemEvent;
 
 
 public class DetailFragment extends Fragment {
@@ -42,10 +42,8 @@ public class DetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Event event = Event.EVENTS.get(EventActivity.event_index);
-
         initUI(view);
-        updateUI(event);
+        updateUI(EventActivity.event);
     }
 
     private void initUI(View view) {
@@ -56,7 +54,7 @@ public class DetailFragment extends Fragment {
         text_location = view.findViewById(R.id.text_location);
     }
 
-    private void updateUI(Event event) {
+    private void updateUI(ItemEvent event) {
         image_event.setImageResource(event.getImage());
         text_description.setText(event.getDescription());
         text_date.setText(event.getDate_event());

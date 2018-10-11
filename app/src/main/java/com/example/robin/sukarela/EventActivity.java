@@ -3,22 +3,21 @@ package com.example.robin.sukarela;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.robin.sukarela.adapter.DetailAdapter;
-import com.example.robin.sukarela.model.Event;
+import com.example.robin.sukarela.model.ItemEvent;
 
 public class EventActivity extends AppCompatActivity {
 
+    public static ItemEvent event;
+    public static boolean join;
 
-    public static int event_index;
-
-    Event mEvent;
     DetailAdapter mAdapter;
 
     private Toolbar mToolbar;
@@ -54,6 +53,18 @@ public class EventActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.action_join:
+
+                if (event != null) {
+                    join = !join;
+
+                    if (join) {
+                        item.setTitle(R.string.text_cancel);
+                    } else {
+                        item.setTitle(R.string.text_join);
+                    }
+
+                    mAdapter.getTaskFragment().update();
+                }
                 break;
         }
 
@@ -63,19 +74,19 @@ public class EventActivity extends AppCompatActivity {
     private void initUI() {
         setSupportActionBar(mToolbar);
 
+        join = false;
+
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
 
         if (bundle != null) {
+
+            event = ItemEvent.EVENTS.get(bundle.getInt("position"));
+            setTitle(event.getTitle());
+
             mAdapter = new DetailAdapter(getSupportFragmentManager());
-            event_index = bundle.getInt("position");
+            mViewPager.setAdapter(mAdapter);
+            mTabLayout.setupWithViewPager(mViewPager);
         }
-
-        if (mEvent != null) {
-            setTitle(mEvent.getTitle());
-        }
-
-        mViewPager.setAdapter(mAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
     }
 }

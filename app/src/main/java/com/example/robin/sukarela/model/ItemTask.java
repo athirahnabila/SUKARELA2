@@ -1,13 +1,13 @@
 package com.example.robin.sukarela.model;
 
-public class Task {
+public class ItemTask {
     private String title;
     private String description;
 
     private boolean status;
 
 
-    public Task(String title, String description) {
+    public ItemTask(String title, String description) {
         this.title = title;
         this.description = description;
     }
