@@ -14,15 +14,13 @@ import com.example.robin.sukarela.model.Task;
 
 import java.util.List;
 
-public class TaskAdapter extends ArrayAdapter{
-
-
+public class TaskAdapter extends ArrayAdapter<Task> {
 
     private Context mContext;
     private List<Task> mList;
 
     public TaskAdapter(Context context, List<Task> events) {
-        super(context, R.layout.item_task,events);
+        super(context, R.layout.item_task, events);
 
         mList = events;
         mContext = context;
@@ -47,19 +45,16 @@ public class TaskAdapter extends ArrayAdapter{
             LayoutInflater inflater = LayoutInflater.from(mContext);
 
             convertView = inflater.inflate(R.layout.item_task, parent, false);
-            vh.textTask = convertView.findViewById(R.id.tvTask);
-            vh.textDesc = convertView.findViewById(R.id.tvDesc);
+            convertView.setTag(vh);
 
-
-            vh.textTask.setText(task.getTitle());
-            vh.textDesc.setText(task.getDescription());
-        } else {
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-
-            convertView = inflater.inflate(R.layout.item_task_title, parent, false);
-            vh.textTask = convertView.findViewById(R.id.tvTitle);
-            vh.textTask.setText(task.getTitle());
+            vh.textTask = convertView.findViewById(R.id.task_text_title);
+            vh.textDesc = convertView.findViewById(R.id.task_text_description);
+        }else {
+            vh = (ViewHolder) convertView.getTag();
         }
+
+        vh.textTask.setText(task.getTitle());
+        vh.textDesc.setText(task.getDescription());
 
         return convertView;
     }
