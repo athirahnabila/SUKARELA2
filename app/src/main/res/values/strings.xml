@@ -16,4 +16,10 @@
     <string name="text_cancel">Cancel</string>
     <string name="text_profile">Profile</string>
     <string name="text_select">select</string>
+    <string name="text_welcome">Welcome to Muslim Volunteer</string>
+    <string name="text_signin">sign in</string>
+    <string name="text_name">Enter your name</string>
+    <string name="text_phone">Enter your phone</string>
+    <string name="text_float_name">Name</string>
+    <string name="text_float_mobile">Mobile number</string>
 </resources>
