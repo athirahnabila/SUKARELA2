@@ -23,8 +23,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private OnFragmentInteractionListener mListener;
 
-    String description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-
     public HomeFragment() {
 
         // Required empty public constructor
@@ -40,12 +38,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic1, "Ekplorasi Deria", description, "10 Mac 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic2, "Ekplorasi Deria", description, "10 Mac 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic3, "Ekplorasi Deria", description, "10 Mac 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic4, "Ekplorasi Deria", description, "10 Mac 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic5, "Ekplorasi Deria", description, "10 Mac 2018"));
 
         ListView listView = view.findViewById(R.id.listv);
         EventAdapter adapter = new EventAdapter(getActivity());

@@ -18,10 +18,15 @@
     <string name="text_select">select</string>
     <string name="text_welcome">Welcome to Muslim Volunteer</string>
     <string name="text_signin">sign in</string>
+    <string name="text_signup">sign up</string>
     <string name="text_name">Enter your name</string>
     <string name="text_phone">Enter your phone</string>
     <string name="text_float_name">Name</string>
     <string name="text_float_mobile">Mobile number</string>
     <string name="description_signin">Please put your mobile number. If this first login, swipe left to register new account.</string>
     <string name="description_signup">Follow our simple step to register a account. Wait for confirmation number to complete registration.</string>
+    <string name="text_verification">Enter receive verification number</string>
+    <string name="text_float_verification">Verification number</string>
+    <string name="text_confirm">confirm</string>
+    <string name="description_verification">Please wait, you will receive a message that contain verification number.</string>
 </resources>
