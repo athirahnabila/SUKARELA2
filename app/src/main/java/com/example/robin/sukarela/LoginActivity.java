@@ -1,5 +1,6 @@
 package com.example.robin.sukarela;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -13,7 +14,7 @@ import com.example.robin.sukarela.adapter.LoginAdapter;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     CoordinatorLayout mRoot;
 
@@ -24,6 +25,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     LoginAdapter mAdapter;
 
     Button mButton_submit;
+
+    int page = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +54,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        Snackbar snackbar = Snackbar.make(mRoot, "Wrong password", Snackbar.LENGTH_LONG);
-        snackbar.show();
+//        switch (page) {
+//            case 0:
+//                Snackbar.make(mRoot, "Sign in page!", Snackbar.LENGTH_LONG).show();
+//                break;
+//            case 1:
+//                Snackbar.make(mRoot, "Sign up page!", Snackbar.LENGTH_LONG).show();
+//                break;
+//        }
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
-    private void initUI(){
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+        // update page number
+        page = i;
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+
+    }
+
+    private void initUI() {
         mPager.setAdapter(mAdapter);
+        mPager.addOnPageChangeListener(this);
         mTab.setupWithViewPager(mPager);
     }
 }

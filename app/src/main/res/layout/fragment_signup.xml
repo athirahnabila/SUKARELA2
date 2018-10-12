@@ -8,6 +8,12 @@
     android:padding="40dp"
     tools:context=".login.SignupFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/description_signup" />
+
     <com.rengwuxian.materialedittext.MaterialEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

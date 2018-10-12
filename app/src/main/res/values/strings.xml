@@ -22,4 +22,6 @@
     <string name="text_phone">Enter your phone</string>
     <string name="text_float_name">Name</string>
     <string name="text_float_mobile">Mobile number</string>
+    <string name="description_signin">Please put your mobile number. If this first login, swipe left to register new account.</string>
+    <string name="description_signup">Follow our simple step to register a account. Wait for confirmation number to complete registration.</string>
 </resources>
