@@ -9,11 +9,15 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.robin.sukarela.adapter.LoginAdapter;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

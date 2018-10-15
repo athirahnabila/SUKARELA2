@@ -35,6 +35,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     // download library
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.github.glomadrian:CodeInput:1.1@aar'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
     // auto library
     testImplementation 'junit:junit:4.12'

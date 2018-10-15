@@ -9,28 +9,26 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="18dp"
         android:text="@string/description_verification"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="14sp" />
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:layout_width="match_parent"
+    <com.github.glomadrian.codeinputlib.CodeInput
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:hint="@string/text_verification"
-        android:inputType="number"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelText="@string/text_float_verification" />
+        android:layout_marginBottom="18dp"
+        app:hint_text="Pairing code" />
 
     <Button
         android:id="@+id/dialog_login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="128dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
         android:layout_margin="8dp"
         android:background="@drawable/button_verification"
         android:text="@string/text_confirm"
-        style="@style/Widget.AppCompat.Button.Borderless"
         android:textColor="@color/white" />
 </LinearLayout>
