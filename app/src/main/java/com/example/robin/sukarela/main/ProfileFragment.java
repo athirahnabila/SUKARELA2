@@ -3,11 +3,11 @@ package com.example.robin.sukarela.main;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -64,22 +64,23 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        EditText text1 = (EditText) view.findViewById(R.id.etName);
-        EditText text2 = (EditText) view.findViewById(R.id.etAge);
-        EditText text3 = (EditText) view.findViewById(R.id.etPhone);
+        EditText text1 = (EditText) view.findViewById(R.id.profile_field_name);
+        EditText text2 = (EditText) view.findViewById(R.id.profile_field_age);
+        EditText text3 = (EditText) view.findViewById(R.id.profile_field_contact);
 
 
         text1.setText("Ali Bin Ahmad");
         text2.setText("65");
         text3.setText("0123456789");
 
-            return view;
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

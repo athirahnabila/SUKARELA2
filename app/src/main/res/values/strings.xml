@@ -29,4 +29,8 @@
     <string name="text_float_verification">Verification number</string>
     <string name="text_confirm">confirm</string>
     <string name="description_verification">Please wait, you will receive a message that contain verification number.</string>
+    <string name="text_hint_name">Name</string>
+    <string name="text_hint_age">Age</string>
+    <string name="text_hint_contact">Contact</string>
+    <string name="text_update">update</string>
 </resources>
