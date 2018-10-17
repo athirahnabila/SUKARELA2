@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.robin.sukarela.EventActivity;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.model.ItemEvent;
@@ -50,7 +51,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
     public void onBindViewHolder(@NonNull EventHolder eventHolder, int i) {
         ItemEvent event = mList.get(i); // current display item
 
-        eventHolder.image.setImageResource(event.getImage());
+        Glide
+                .with(eventHolder.image.getContext())
+                .load(event.getImage())
+                .into(eventHolder.image);
+
         eventHolder.text_title.setText(event.getTitle());
         eventHolder.text_date.setText(event.getDate_event());
     }

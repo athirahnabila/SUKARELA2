@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.robin.sukarela.EventActivity;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.model.ItemEvent;
@@ -55,7 +56,11 @@ public class DetailFragment extends Fragment {
     }
 
     private void updateUI(ItemEvent event) {
-        image_event.setImageResource(event.getImage());
+        Glide
+                .with(image_event.getContext())
+                .load(event.getImage())
+                .into(image_event);
+
         text_description.setText(event.getDescription());
         text_date.setText(event.getDate_event());
         text_time.setText(event.getDate_posted());

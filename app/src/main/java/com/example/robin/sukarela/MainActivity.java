@@ -36,11 +36,17 @@ public class MainActivity extends AppCompatActivity {
         mBottomBar = findViewById(R.id.main_bottombar);
         mFragmentManager = getSupportFragmentManager();
 
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic1, "Ekplorasi Deria", description, "10 Mac 2016"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic2, "Selamatkan Encik Belang", description, "29 Feb 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic3, "Agihan Banjir", description, "10 Apr 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic4, "Bantuan hari Raya", description, "10 Nov 2017"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic5, "Apa apa je", description, "10 Jan 2019"));
+        String image_1 = "https://firebasestorage.googleapis.com/v0/b/sukarelaapp.appspot.com/o/test%2Falberto-santiago-1102994-unsplash.jpg?alt=media&token=8434c45d-b024-4b83-9308-e57207d16be5";
+        String image_2 = "https://firebasestorage.googleapis.com/v0/b/sukarelaapp.appspot.com/o/test%2Fgades-photography-540975-unsplash.jpg?alt=media&token=aeb3cb35-b288-4a2f-a080-2dbd29c539b0";
+        String image_3 = "https://firebasestorage.googleapis.com/v0/b/sukarelaapp.appspot.com/o/test%2Fhudson-hintze-183959-unsplash.jpg?alt=media&token=18c32396-535f-46bc-92df-e5906e4e6bec";
+        String image_4 = "https://firebasestorage.googleapis.com/v0/b/sukarelaapp.appspot.com/o/test%2Fprasad-sn-767846-unsplash.jpg?alt=media&token=b9ee157c-5845-4af2-a2d4-6bece2fd44d1";
+        String image_5 = "https://firebasestorage.googleapis.com/v0/b/sukarelaapp.appspot.com/o/test%2Falberto-santiago-1102994-unsplash.jpg?alt=media&token=8434c45d-b024-4b83-9308-e57207d16be5";
+
+        ItemEvent.EVENTS.add(new ItemEvent(image_1, "Ekplorasi Deria", description, "10 Mac 2016"));
+        ItemEvent.EVENTS.add(new ItemEvent(image_2, "Selamatkan Encik Belang", description, "29 Feb 2018"));
+        ItemEvent.EVENTS.add(new ItemEvent(image_3, "Agihan Banjir", description, "10 Apr 2018"));
+        ItemEvent.EVENTS.add(new ItemEvent(image_4, "Bantuan hari Raya", description, "10 Nov 2017"));
+        ItemEvent.EVENTS.add(new ItemEvent(image_5, "Apa apa je", description, "10 Jan 2019"));
     }
 
     @Override

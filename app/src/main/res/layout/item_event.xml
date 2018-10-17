@@ -9,7 +9,7 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:contentDescription="@string/text_description"
-        android:src="@drawable/pic1" />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/itemevent_text_title"

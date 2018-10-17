@@ -10,7 +10,7 @@ public class ItemEvent {
 
     public static final List<ItemEvent> EVENTS = new ArrayList<>();
 
-    private int image;
+    private String image;
 
     private String title;
     private String description;
@@ -21,7 +21,7 @@ public class ItemEvent {
 
     enum Status {Completed, Ongoing, Cancelled}
 
-    public ItemEvent(int image, String title, String description, String date_event) {
+    public ItemEvent(String image, String title, String description, String date_event) {
         this.image = image;
         this.title = title;
         this.description = description;
@@ -31,11 +31,11 @@ public class ItemEvent {
         date_posted = Helper.getStringDateTime(new Date());
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
