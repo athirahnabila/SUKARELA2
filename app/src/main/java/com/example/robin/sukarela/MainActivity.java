@@ -36,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
         mBottomBar = findViewById(R.id.main_bottombar);
         mFragmentManager = getSupportFragmentManager();
 
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic1, "Ekplorasi Deria", description, "10 Mac 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic2, "Ekplorasi Deria", description, "10 Mac 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic3, "Ekplorasi Deria", description, "10 Mac 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic4, "Ekplorasi Deria", description, "10 Mac 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic5, "Ekplorasi Deria", description, "10 Mac 2018"));
+        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic1, "Ekplorasi Deria", description, "10 Mac 2016"));
+        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic2, "Selamatkan Encik Belang", description, "29 Feb 2018"));
+        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic3, "Agihan Banjir", description, "10 Apr 2018"));
+        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic4, "Bantuan hari Raya", description, "10 Nov 2017"));
+        ItemEvent.EVENTS.add(new ItemEvent(R.drawable.pic5, "Apa apa je", description, "10 Jan 2019"));
     }
 
     @Override

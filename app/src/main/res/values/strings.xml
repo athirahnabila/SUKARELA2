@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Volunteer</string>
+    <string name="app_name">I am volunteer</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -33,4 +33,7 @@
     <string name="text_hint_age">Age</string>
     <string name="text_hint_contact">Contact</string>
     <string name="text_update">update</string>
+    <string name="text_completed_date">Completed : 17/10/2018</string>
+    <string name="text_completed_title">Save Mother Earth</string>
+    <string name="text_detail">details</string>
 </resources>

@@ -1,67 +1,77 @@
 package com.example.robin.sukarela.adapter;
 
-import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.robin.sukarela.EventActivity;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.model.ItemEvent;
 
-public class EventAdapter extends ArrayAdapter {
+import java.util.List;
 
-    private Context mContext;
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder> {
 
-    public EventAdapter(Context context) {
-        super(context, R.layout.item_event);
+    private List<ItemEvent> mList;
 
-        mContext = context;
-    }
-
-
-    @Override
-    public int getCount() {
-        return ItemEvent.EVENTS.size();
+    public EventAdapter(List<ItemEvent> data) {
+        this.mList = data;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // current item model
-        ItemEvent event = ItemEvent.EVENTS.get(position);
+    public EventHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        final int index = i;
 
-        // create item view holder
-        ViewHolder vh = new ViewHolder();
+        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_event, viewGroup, false);
+        view.setOnClickListener(new View.OnClickListener() {
 
-        if (convertView == null) {
-            // create view for first time
-            LayoutInflater inflater = LayoutInflater.from(mContext);
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", index);
 
-            convertView = inflater.inflate(R.layout.item_event, parent, false);
-            vh.image = convertView.findViewById(R.id.image_event);
-            vh.text_title = convertView.findViewById(R.id.text_title);
-            vh.text_date_event = convertView.findViewById(R.id.text_date_event);
-            convertView.setTag(vh);
-        } else {
-            vh = (ViewHolder) convertView.getTag();
-        }
+                Intent intent = new Intent(view.getContext(), EventActivity.class);
+                intent.putExtras(bundle);
+                view.getContext().startActivity(intent);
+            }
+        });
 
-        vh.image.setImageResource(event.getImage());
-        vh.text_title.setText(event.getTitle());
-        vh.text_date_event.setText(event.getDate_event());
-
-        return convertView;
+        return new EventHolder(view);
     }
 
-    static class ViewHolder {
-        ImageView image;
+    @Override
+    public void onBindViewHolder(@NonNull EventHolder eventHolder, int i) {
+        ItemEvent event = mList.get(i); // current display item
 
+        eventHolder.image.setImageResource(event.getImage());
+        eventHolder.text_title.setText(event.getTitle());
+        eventHolder.text_date.setText(event.getDate_event());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mList.size();
+    }
+
+    class EventHolder extends RecyclerView.ViewHolder {
+
+        ImageView image;
         TextView text_title;
-        TextView text_date_event;
+        TextView text_date;
+
+        private EventHolder(@NonNull View itemView) {
+            super(itemView);
+
+            image = itemView.findViewById(R.id.itemevent_image);
+            text_title = itemView.findViewById(R.id.itemevent_text_title);
+            text_date = itemView.findViewById(R.id.itemevent_text_date);
+        }
     }
 }

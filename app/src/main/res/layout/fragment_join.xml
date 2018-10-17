@@ -5,11 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".main.JoinFragment">
 
-    <ListView
-        android:id="@+id/listv"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/join_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
-
+        android:layout_height="match_parent"/>
 </FrameLayout>
