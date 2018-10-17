@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/image_event"
+        android:id="@+id/itemevent_image"
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:contentDescription="@string/text_description"
         android:src="@drawable/pic1" />
 
     <TextView
-        android:id="@+id/text_title"
+        android:id="@+id/itemevent_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="6dp"
         android:layout_marginLeft="6dp"
-        android:layout_toEndOf="@id/image_event"
+        android:layout_toEndOf="@id/itemevent_image"
         android:text="@string/text_title"
-        android:layout_toRightOf="@id/image_event"
+        android:layout_toRightOf="@id/itemevent_image"
         android:textColor="@color/black"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/text_date_event"
+        android:id="@+id/itemevent_text_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_title"
+        android:layout_below="@id/itemevent_text_title"
         android:layout_marginStart="6dp"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="12dp"
-        android:layout_toEndOf="@id/image_event"
+        android:layout_toEndOf="@id/itemevent_image"
         android:text="@string/text_date_event"
-        android:layout_toRightOf="@id/image_event" />
+        android:layout_toRightOf="@id/itemevent_image" />
 </RelativeLayout>

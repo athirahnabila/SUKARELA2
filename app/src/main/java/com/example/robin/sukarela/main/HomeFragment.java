@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +18,17 @@ import android.widget.Toast;
 import com.example.robin.sukarela.EventActivity;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.adapter.EventAdapter;
+import com.example.robin.sukarela.adapter.EventAdapterV2;
 import com.example.robin.sukarela.model.ItemEvent;
+
+import java.util.ArrayList;
 
 
 public class HomeFragment extends Fragment implements AdapterView.OnItemClickListener {
+
+    EventAdapterV2 mAdapter;
+    RecyclerView mRecyclerView;
+    LinearLayoutManager mLayoutManager;
 
     private OnFragmentInteractionListener mListener;
 
@@ -39,11 +48,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        ListView listView = view.findViewById(R.id.listv);
-        EventAdapter adapter = new EventAdapter(getActivity());
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mAdapter = new EventAdapterV2(ItemEvent.EVENTS);
+        mRecyclerView = view.findViewById(R.id.home_recyclerview);
 
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
