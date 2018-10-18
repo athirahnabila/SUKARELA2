@@ -62,8 +62,6 @@ public class DetailFragment extends Fragment {
                 .into(image_event);
 
         text_description.setText(event.getDescription());
-        text_date.setText(event.getDate_event());
-        text_time.setText(event.getDate_posted());
         text_location.setText("Johorian");
     }
 }

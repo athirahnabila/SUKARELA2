@@ -57,7 +57,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
                 .into(eventHolder.image);
 
         eventHolder.text_title.setText(event.getTitle());
-        eventHolder.text_date.setText(event.getDate_event());
     }
 
     @Override

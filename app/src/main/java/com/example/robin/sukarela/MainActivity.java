@@ -8,45 +8,100 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.robin.sukarela.adapter.EventAdapter;
 import com.example.robin.sukarela.main.HomeFragment;
 import com.example.robin.sukarela.main.JoinFragment;
 import com.example.robin.sukarela.main.ProfileFragment;
 import com.example.robin.sukarela.model.ItemEvent;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import javax.annotation.Nullable;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
-    private BottomNavigationView mBottomBar;
-    private FragmentManager mFragmentManager;
+    // adapters
+    public static final EventAdapter EVENT_ADAPTER = new EventAdapter(ItemEvent.EVENTS);
 
     // activity fragments
     HomeFragment homeFragment = new HomeFragment();
     JoinFragment joinFragment = new JoinFragment();
     ProfileFragment profileFragment = new ProfileFragment();
 
-    String description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+    // views
+    private Toolbar mToolbar;
+    private BottomNavigationView mBottomBar;
+    private FragmentManager mFragmentManager;
+
+    // firebase
+    FirebaseFirestore mFirestore;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // views
         mToolbar = findViewById(R.id.include_toolbar);
         mBottomBar = findViewById(R.id.main_bottombar);
         mFragmentManager = getSupportFragmentManager();
 
-        String image_1 = "https://firebasestorage.googleapis.com/v0/b/sukarelaapp.appspot.com/o/test%2Falberto-santiago-1102994-unsplash.jpg?alt=media&token=8434c45d-b024-4b83-9308-e57207d16be5";
-        String image_2 = "https://firebasestorage.googleapis.com/v0/b/sukarelaapp.appspot.com/o/test%2Fgades-photography-540975-unsplash.jpg?alt=media&token=aeb3cb35-b288-4a2f-a080-2dbd29c539b0";
-        String image_3 = "https://firebasestorage.googleapis.com/v0/b/sukarelaapp.appspot.com/o/test%2Fhudson-hintze-183959-unsplash.jpg?alt=media&token=18c32396-535f-46bc-92df-e5906e4e6bec";
-        String image_4 = "https://firebasestorage.googleapis.com/v0/b/sukarelaapp.appspot.com/o/test%2Fprasad-sn-767846-unsplash.jpg?alt=media&token=b9ee157c-5845-4af2-a2d4-6bece2fd44d1";
-        String image_5 = "https://firebasestorage.googleapis.com/v0/b/sukarelaapp.appspot.com/o/test%2Falberto-santiago-1102994-unsplash.jpg?alt=media&token=8434c45d-b024-4b83-9308-e57207d16be5";
+        // firebase
+        mFirestore = FirebaseFirestore.getInstance();
 
-        ItemEvent.EVENTS.add(new ItemEvent(image_1, "Ekplorasi Deria", description, "10 Mac 2016"));
-        ItemEvent.EVENTS.add(new ItemEvent(image_2, "Selamatkan Encik Belang", description, "29 Feb 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(image_3, "Agihan Banjir", description, "10 Apr 2018"));
-        ItemEvent.EVENTS.add(new ItemEvent(image_4, "Bantuan hari Raya", description, "10 Nov 2017"));
-        ItemEvent.EVENTS.add(new ItemEvent(image_5, "Apa apa je", description, "10 Jan 2019"));
+        // start listen to available event
+        mFirestore.collection("/events").orderBy("date_posted").addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                if (queryDocumentSnapshots != null) {
+
+                    if (!queryDocumentSnapshots.isEmpty()) {
+
+                        ItemEvent.EVENTS.clear();
+
+                        for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
+
+                            // get event data
+                            String title = snapshot.getString("title");
+                            String description = snapshot.getString("description");
+                            String image = snapshot.getString("image");
+                            Timestamp date_posted = snapshot.getTimestamp("date_posted");
+                            Timestamp date_event = snapshot.getTimestamp("date_event");
+
+                            // remove annoying error message
+                            assert date_posted != null;
+                            assert date_event != null;
+
+                            // create new event item
+                            ItemEvent event = new ItemEvent();
+                            event.setTitle(title);
+                            event.setDescription(description);
+                            event.setImage(image);
+                            event.setDate_posted(date_posted.toDate());
+                            event.setDate_event(date_event.toDate());
+
+                            // add item
+                            ItemEvent.EVENTS.add(event);
+                        }
+
+                        // update recycler view that use this adapter
+                        EVENT_ADAPTER.notifyDataSetChanged();
+
+                    }else{
+                        Toast.makeText(MainActivity.this, "Nothing event to show.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
 
     @Override

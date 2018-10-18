@@ -2,22 +2,30 @@ package com.example.robin.sukarela;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetBehavior;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.robin.sukarela.adapter.LoginAdapter;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
+
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,7 +41,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     Button mButton_submit;
 
+
+    private static final String TAG = "LoginActivity";
     int page = 0;
+
+    //firebase
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +63,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mButton_submit = findViewById(R.id.login_button_submit);
         mButton_submit.setOnClickListener(this);
+
+        // firebase
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -57,26 +73,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
 
         initUI();
+        updateUI(mAuth.getCurrentUser());
     }
 
     @Override
     public void onClick(View v) {
-        View view = getLayoutInflater().inflate(R.layout.dialog_login, null);
+        final View view = getLayoutInflater().inflate(R.layout.dialog_login, null);
         Button button_verify = view.findViewById(R.id.dialog_login_button);
         button_verify.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                sendCode();
             }
         });
 
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);
         dialog.show();
-
-//        BottomSheetBehavior behavior = BottomSheetBehavior.from((View) view.getParent());
-//        behavior.setPeekHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics()));
     }
 
     @Override
@@ -108,5 +122,54 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPager.setAdapter(mAdapter);
         mPager.addOnPageChangeListener(this);
         mTab.setupWithViewPager(mPager);
+    }
+
+    private void sendCode() {
+        PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential credential) {
+                Toast.makeText(LoginActivity.this, "Code receive : " + credential.getSmsCode(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+                Log.w(TAG, "onVerificationFailed", e);
+
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                } else if (e instanceof FirebaseTooManyRequestsException) {
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onCodeSent(String verificationId,
+                                   PhoneAuthProvider.ForceResendingToken token) {
+
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, "123456");
+                mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()) {
+                            updateUI(mAuth.getCurrentUser());
+                        }
+                    }
+                });
+            }
+        };
+
+        PhoneAuthProvider.getInstance().verifyPhoneNumber("+60 18-968 4066", 60, TimeUnit.SECONDS, LoginActivity.this, mCallbacks);
+    }
+
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

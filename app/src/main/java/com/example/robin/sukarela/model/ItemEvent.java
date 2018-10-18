@@ -1,6 +1,6 @@
 package com.example.robin.sukarela.model;
 
-import com.example.robin.sukarela.utility.Helper;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,34 +10,16 @@ public class ItemEvent {
 
     public static final List<ItemEvent> EVENTS = new ArrayList<>();
 
-    private String image;
 
     private String title;
     private String description;
-    private String date_posted;
-    private String date_event;
+    private String image;
 
-    private Status status;
+    private Date date_posted;
+    private Date date_event;
 
-    enum Status {Completed, Ongoing, Cancelled}
+    private int status;
 
-    public ItemEvent(String image, String title, String description, String date_event) {
-        this.image = image;
-        this.title = title;
-        this.description = description;
-        this.date_event = date_event;
-
-        // cannot be change external
-        date_posted = Helper.getStringDateTime(new Date());
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public String getTitle() {
         return title;
@@ -55,23 +37,35 @@ public class ItemEvent {
         this.description = description;
     }
 
-    public String getDate_posted() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Date getDate_posted() {
         return date_posted;
     }
 
-    public String getDate_event() {
+    public void setDate_posted(Date date_posted) {
+        this.date_posted = date_posted;
+    }
+
+    public Date getDate_event() {
         return date_event;
     }
 
-    public void setDate_event(String date_event) {
+    public void setDate_event(Date date_event) {
         this.date_event = date_event;
     }
 
-    public Status getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

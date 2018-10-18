@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.example.robin.sukarela.EventActivity;
+import com.example.robin.sukarela.MainActivity;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.adapter.EventAdapter;
 import com.example.robin.sukarela.model.ItemEvent;
@@ -19,7 +20,6 @@ import com.example.robin.sukarela.model.ItemEvent;
 
 public class HomeFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    EventAdapter mAdapter;
     RecyclerView mRecyclerView;
     LinearLayoutManager mLayoutManager;
 
@@ -41,11 +41,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         mLayoutManager = new LinearLayoutManager(getContext());
-        mAdapter = new EventAdapter(ItemEvent.EVENTS);
         mRecyclerView = view.findViewById(R.id.home_recyclerview);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(MainActivity.EVENT_ADAPTER);
 
         return view;
     }
