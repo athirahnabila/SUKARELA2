@@ -8,6 +8,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -38,6 +39,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:17.1.1'
     // download library
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'com.github.glomadrian:CodeInput:1.1@aar'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
