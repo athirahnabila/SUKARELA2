@@ -8,9 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.example.robin.sukarela.adapter.DetailAdapter;
+import com.example.robin.sukarela.adapter.DetailTabAdapter;
 import com.example.robin.sukarela.model.ItemEvent;
 
 public class EventActivity extends AppCompatActivity {
@@ -18,7 +17,7 @@ public class EventActivity extends AppCompatActivity {
     public static ItemEvent event;
     public static boolean join;
 
-    DetailAdapter mAdapter;
+    DetailTabAdapter mAdapter;
 
     private Toolbar mToolbar;
     private ViewPager mViewPager;
@@ -43,7 +42,7 @@ public class EventActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.event_menu, menu);
+        getMenuInflater().inflate(R.menu.event_option_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -84,7 +83,7 @@ public class EventActivity extends AppCompatActivity {
             event = ItemEvent.EVENTS.get(bundle.getInt("position"));
             setTitle(event.getTitle());
 
-            mAdapter = new DetailAdapter(getSupportFragmentManager());
+            mAdapter = new DetailTabAdapter(getSupportFragmentManager());
             mViewPager.setAdapter(mAdapter);
             mTabLayout.setupWithViewPager(mViewPager);
         }

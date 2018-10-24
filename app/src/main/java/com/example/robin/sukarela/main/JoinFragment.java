@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.adapter.JoinAdapter;
+import com.example.robin.sukarela.adapter.JoinItemAdapter;
 import com.example.robin.sukarela.model.ItemEvent;
 
 /**
@@ -39,7 +39,7 @@ public class JoinFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        JoinAdapter adapter = new JoinAdapter(ItemEvent.EVENTS);
+        JoinItemAdapter adapter = new JoinItemAdapter(ItemEvent.EVENTS);
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         DividerItemDecoration decoration = new DividerItemDecoration(view.getContext(), manager.getOrientation());
 

@@ -12,7 +12,7 @@ import com.example.robin.sukarela.event.TaskFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailAdapter extends FragmentStatePagerAdapter {
+public class DetailTabAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> mFragments;
     private List<String> mTitles;
@@ -21,7 +21,7 @@ public class DetailAdapter extends FragmentStatePagerAdapter {
     private DetailFragment detailsFragment;
     private TaskFragment taskFragment;
 
-    public DetailAdapter(FragmentManager fm) {
+    public DetailTabAdapter(FragmentManager fm) {
         super(fm);
 
         initFragment();

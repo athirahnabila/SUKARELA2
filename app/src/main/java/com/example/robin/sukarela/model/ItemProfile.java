@@ -2,10 +2,14 @@ package com.example.robin.sukarela.model;
 
 public class ItemProfile {
 
+    public static final ItemProfile USER_PROFILE = new ItemProfile();
+
     private String name;
+    private String image;
     private String contact;
 
     private int age;
+
 
     public String getName() {
         return name;
@@ -13,6 +17,14 @@ public class ItemProfile {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getContact() {
@@ -23,8 +35,8 @@ public class ItemProfile {
         this.contact = contact;
     }
 
-    public int getAge() {
-        return age;
+    public String getAge() {
+        return String.valueOf(age);
     }
 
     public void setAge(int age) {

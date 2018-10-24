@@ -11,12 +11,12 @@ import com.example.robin.sukarela.login.SigninFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginAdapter extends FragmentStatePagerAdapter {
+public class LoginTabAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> mFragments = new ArrayList<>();
     private List<String> mTitles = new ArrayList<>();
 
-    public LoginAdapter(FragmentManager fm) {
+    public LoginTabAdapter(FragmentManager fm) {
         super(fm);
 
         SigninFragment signinFragment = new SigninFragment();

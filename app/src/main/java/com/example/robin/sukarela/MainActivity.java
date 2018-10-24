@@ -1,5 +1,6 @@
 package com.example.robin.sukarela;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,15 +8,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.robin.sukarela.adapter.EventAdapter;
+import com.example.robin.sukarela.adapter.EventItemAdapter;
 import com.example.robin.sukarela.main.HomeFragment;
 import com.example.robin.sukarela.main.JoinFragment;
 import com.example.robin.sukarela.main.ProfileFragment;
 import com.example.robin.sukarela.model.ItemEvent;
+import com.example.robin.sukarela.model.ItemProfile;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,7 +31,7 @@ import javax.annotation.Nullable;
 public class MainActivity extends AppCompatActivity {
 
     // adapters
-    public static final EventAdapter EVENT_ADAPTER = new EventAdapter(ItemEvent.EVENTS);
+    public static final EventItemAdapter EVENT_ADAPTER = new EventItemAdapter(ItemEvent.EVENTS);
 
     // activity fragments
     HomeFragment homeFragment = new HomeFragment();
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
 
     // firebase
+    FirebaseAuth mAuth;
     FirebaseFirestore mFirestore;
 
 
@@ -54,10 +59,15 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
 
         // firebase
+        mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
 
         // start listen to available event
-        mFirestore.collection("/events").orderBy("date_posted").addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+        mFirestore
+                .collection("/events")
+                .orderBy("date_posted") // from latest to old event
+                .limit(10) // display only top 10 event
+                .addSnapshotListener(this, new EventListener<QuerySnapshot>() {
 
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -66,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!queryDocumentSnapshots.isEmpty()) {
 
+                        // clear previous item in the list
+                        // avoid duplicate data
                         ItemEvent.EVENTS.clear();
 
                         for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
@@ -108,7 +120,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        Toast.makeText(this, "Name login user is " + ItemProfile.USER_PROFILE.getName(), Toast.LENGTH_SHORT).show();
+
         initUI();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_option_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.main_option_signout:
+
+                // firebase logout
+                mAuth.signOut();
+
+                // go to login activity
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+
+                break;
+            case R.id.main_option_about:
+                break;
+        }
+
+        return true;
     }
 
     private void initUI() {

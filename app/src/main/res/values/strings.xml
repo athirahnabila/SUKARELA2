@@ -36,4 +36,6 @@
     <string name="text_completed_date">Completed : 17/10/2018</string>
     <string name="text_completed_title">Save Mother Earth</string>
     <string name="text_detail">details</string>
+    <string name="main_option_text_signout">Sign out</string>
+    <string name="main_option_text_about">About</string>
 </resources>

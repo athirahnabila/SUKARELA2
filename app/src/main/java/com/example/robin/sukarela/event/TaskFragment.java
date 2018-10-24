@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.adapter.TaskAdapter;
+import com.example.robin.sukarela.adapter.TaskItemAdapter;
 import com.example.robin.sukarela.model.ItemTask;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import java.util.List;
 public class TaskFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private TaskFragment.OnFragmentInteractionListener mListener;
-    TaskAdapter adapter;
+    TaskItemAdapter adapter;
 
     public TaskFragment() {
         // Required empty public constructor
@@ -47,7 +47,7 @@ public class TaskFragment extends Fragment implements AdapterView.OnItemClickLis
         list.add(new ItemTask("Mengedarkan", "Volunteer akan bantu mengedarkan barang-barang keperluan asas kepada keluarga penerima bantuan."));
 
         ListView listView = view.findViewById(R.id.lvTask);
-        adapter = new TaskAdapter(getActivity(), list);
+        adapter = new TaskItemAdapter(getActivity(), list);
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);

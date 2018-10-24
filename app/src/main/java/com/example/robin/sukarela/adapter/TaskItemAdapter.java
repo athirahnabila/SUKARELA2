@@ -16,12 +16,12 @@ import com.example.robin.sukarela.model.ItemTask;
 
 import java.util.List;
 
-public class TaskAdapter extends ArrayAdapter<ItemTask> {
+public class TaskItemAdapter extends ArrayAdapter<ItemTask> {
 
     private Context mContext;
     private List<ItemTask> mList;
 
-    public TaskAdapter(Context context, List<ItemTask> events) {
+    public TaskItemAdapter(Context context, List<ItemTask> events) {
         super(context, R.layout.item_task, events);
 
         mList = events;
@@ -40,7 +40,7 @@ public class TaskAdapter extends ArrayAdapter<ItemTask> {
         ItemTask task = mList.get(position);
 
         // create item view holder
-        TaskAdapter.ViewHolder vh = new TaskAdapter.ViewHolder();
+        TaskItemAdapter.ViewHolder vh = new TaskItemAdapter.ViewHolder();
 
         if (convertView == null) {
             // create view for first time

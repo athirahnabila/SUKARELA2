@@ -13,7 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.robin.sukarela.adapter.LoginAdapter;
+import com.example.robin.sukarela.adapter.LoginTabAdapter;
+import com.example.robin.sukarela.model.ItemProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -24,6 +25,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,22 +34,24 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
+    private static final String TAG = "LoginActivity";
+
+    int page = 0;
+
+    // views
     CoordinatorLayout mRoot;
 
-    CircleImageView mImage_profile;
+    CircleImageView mImage;
 
     TabLayout mTab;
     ViewPager mPager;
-    LoginAdapter mAdapter;
+    LoginTabAdapter mAdapter;
 
     Button mButton_submit;
 
-
-    private static final String TAG = "LoginActivity";
-    int page = 0;
-
     //firebase
     FirebaseAuth mAuth;
+    FirebaseFirestore mFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +60,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mRoot = findViewById(R.id.login_root);
 
-        mImage_profile = findViewById(R.id.login_image_profile);
+        mImage = findViewById(R.id.login_image_profile);
 
         mTab = findViewById(R.id.login_tab);
         mPager = findViewById(R.id.login_pager);
-        mAdapter = new LoginAdapter(getSupportFragmentManager());
+        mAdapter = new LoginTabAdapter(getSupportFragmentManager());
 
         mButton_submit = findViewById(R.id.login_button_submit);
         mButton_submit.setOnClickListener(this);
 
         // firebase
         mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -167,9 +173,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+
+            // get user profile data
+            mFirestore
+                    .collection("users")
+                    .document(user.getUid())
+                    .get()
+                    .addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
+
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                            DocumentSnapshot snapshot = task.getResult();
+
+                            if (task.isSuccessful()) {
+
+                                if (snapshot != null && snapshot.exists()) {
+                                    ItemProfile profile = ItemProfile.USER_PROFILE;
+                                    profile.setName(snapshot.getString("name"));
+                                    profile.setContact(snapshot.getString("contact"));
+                                    profile.setAge(snapshot.getLong("age").intValue());
+
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                            else {
+                                Toast.makeText(LoginActivity.this, "Load user data fail!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         }
     }
 }

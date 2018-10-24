@@ -17,11 +17,11 @@ import com.example.robin.sukarela.model.ItemEvent;
 
 import java.util.List;
 
-public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder> {
+public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.EventHolder> {
 
     private List<ItemEvent> mList;
 
-    public EventAdapter(List<ItemEvent> data) {
+    public EventItemAdapter(List<ItemEvent> data) {
         this.mList = data;
     }
 

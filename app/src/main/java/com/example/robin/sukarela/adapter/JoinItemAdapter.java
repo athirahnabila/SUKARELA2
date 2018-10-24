@@ -13,12 +13,12 @@ import com.example.robin.sukarela.model.ItemEvent;
 
 import java.util.List;
 
-public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.JoinVH> {
+public class JoinItemAdapter extends RecyclerView.Adapter<JoinItemAdapter.JoinVH> {
 
     private List<ItemEvent> mList;
 
 
-    public JoinAdapter(List<ItemEvent> data) {
+    public JoinItemAdapter(List<ItemEvent> data) {
         this.mList = data;
     }
 

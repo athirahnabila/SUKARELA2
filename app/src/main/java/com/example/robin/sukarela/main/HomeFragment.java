@@ -14,8 +14,6 @@ import android.widget.AdapterView;
 import com.example.robin.sukarela.EventActivity;
 import com.example.robin.sukarela.MainActivity;
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.adapter.EventAdapter;
-import com.example.robin.sukarela.model.ItemEvent;
 
 
 public class HomeFragment extends Fragment implements AdapterView.OnItemClickListener {
