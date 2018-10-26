@@ -11,29 +11,25 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
 
 import com.example.robin.sukarela.adapter.EventItemAdapter;
 import com.example.robin.sukarela.main.HomeFragment;
 import com.example.robin.sukarela.main.JoinFragment;
 import com.example.robin.sukarela.main.ProfileFragment;
 import com.example.robin.sukarela.model.ItemEvent;
-import com.example.robin.sukarela.model.ItemProfile;
 import com.example.robin.sukarela.utility.EventHelper;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -53,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView mBottomBar;
     private FragmentManager mFragmentManager;
 
-    // firebase
-    FirebaseAuth mAuth;
-    FirebaseUser mUser;
-    FirebaseFirestore mFirestore;
+    // firebases
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
+    ListenerRegistration mListener;
 
 
     @Override
@@ -69,13 +65,11 @@ public class MainActivity extends AppCompatActivity {
         mBottomBar = findViewById(R.id.main_bottombar);
         mFragmentManager = getSupportFragmentManager();
 
-        // firebase
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-        mFirestore = FirebaseFirestore.getInstance();
+        // setup ui
+        initUI();
 
         // start listen to available event
-        mFirestore
+        mListener = mFirestore
                 .collection("/events")
                 .orderBy("date_posted") // from latest to old event
                 .limit(10) // display only top 10 event
@@ -84,66 +78,86 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
+                        // document must not null
                         if (queryDocumentSnapshots != null) {
 
+                            // checking numbers of event in events collection
                             if (!queryDocumentSnapshots.isEmpty()) {
 
                                 for (DocumentChange change : queryDocumentSnapshots.getDocumentChanges()) {
-                                    // data
+                                    // contain event data
                                     QueryDocumentSnapshot snapshot = change.getDocument();
-                                    ItemEvent event = new ItemEvent();
 
-                                    // get event data
-                                    String title = snapshot.getString("title");
-                                    String description = snapshot.getString("description");
-                                    String image = snapshot.getString("image");
-                                    Timestamp date_posted = snapshot.getTimestamp("date_posted");
-                                    Timestamp date_event = snapshot.getTimestamp("date_event");
-                                    Object joins = snapshot.get("join_list");
+                                    // checking which type of changes happen
+                                    switch (change.getType()) {
 
-                                    if (joins instanceof ArrayList) {
-                                        ArrayList join_list = (ArrayList) joins;
+                                        // add and modify is same operation
+                                        case ADDED:
+                                        case MODIFIED:
 
-                                        for (Object o : join_list) {
-                                            // checking object is string, it should string
-                                            // cheking user is a volunteer for this event or not
-                                            if (o instanceof String) {
-                                                String uid = (String) o;
+                                            // new event container
+                                            ItemEvent event = new ItemEvent();
 
-                                                // if user join this event
-                                                if (uid.equals(mUser.getUid())) {
-                                                    event.setStatus_joins(true);
+                                            // process data
+                                            String title = snapshot.getString("title");
+                                            String description = snapshot.getString("description");
+                                            String image = snapshot.getString("image");
+                                            Timestamp date_posted = snapshot.getTimestamp("date_posted");
+                                            Timestamp date_event = snapshot.getTimestamp("date_event");
+                                            Object joins = snapshot.get("join_list");
 
-                                                    Log.i(TAG, "message: " + "User is join " + title);
+                                            // check joined status to current login user
+                                            if (mAuth.getCurrentUser() != null) {
 
-                                                    break;
-                                                } else {
-                                                    event.setStatus_joins(false);
+                                                // doing some datatype filtering
+                                                if (joins instanceof ArrayList) {
+                                                    ArrayList join_list = (ArrayList) joins;
+
+                                                    for (Object o : join_list) {
+                                                        // checking object is string, it should string
+                                                        // cheking user is a volunteer for this event or not
+                                                        if (o instanceof String) {
+                                                            String uid = (String) o;
+
+                                                            // if user join this event
+                                                            if (uid.equals(mAuth.getCurrentUser().getUid())) {
+                                                                event.setStatus_joins(true);
+
+                                                                break;
+                                                            } else {
+                                                                event.setStatus_joins(false);
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
-                                        }
+
+                                            // remove annoying error message
+                                            assert date_posted != null;
+                                            assert date_event != null;
+
+                                            // attach data
+                                            event.setTitle(title);
+                                            event.setDescription(description);
+                                            event.setImage(image);
+                                            event.setDate_posted(date_posted.toDate());
+                                            event.setDate_event(date_event.toDate());
+
+                                            // add item
+                                            EventHelper.add(snapshot.getId(), event);
+
+                                            break;
+                                        case REMOVED:
+                                            EventHelper.remove(snapshot.getId());
+                                            break;
                                     }
-
-                                    // remove annoying error message
-                                    assert date_posted != null;
-                                    assert date_event != null;
-
-                                    // attach data
-                                    event.setTitle(title);
-                                    event.setDescription(description);
-                                    event.setImage(image);
-                                    event.setDate_posted(date_posted.toDate());
-                                    event.setDate_event(date_event.toDate());
-
-                                    // add item
-                                    EventHelper.add(snapshot.getId(), event);
                                 }
 
                                 // update recycler view that use this adapter
                                 EVENT_ADAPTER.notifyDataSetChanged();
 
                             } else {
-                                Toast.makeText(MainActivity.this, "Nothing event to show.", Toast.LENGTH_SHORT).show();
+                                Log.i(TAG, "onEvent: " + "no event receive.");
                             }
                         }
                     }
@@ -154,9 +168,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        Toast.makeText(this, "Name login user is " + ItemProfile.USER_PROFILE.getName(), Toast.LENGTH_SHORT).show();
+        if (mAuth.getCurrentUser() == null) {
+            mBottomBar.setVisibility(View.GONE);
+        } else {
+            mBottomBar.setVisibility(View.VISIBLE);
+        }
+    }
 
-        initUI();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mListener != null) {
+            mListener.remove();
+            Log.i(TAG, "onDestroy: " + "success remove events listener.");
+        }
     }
 
     @Override

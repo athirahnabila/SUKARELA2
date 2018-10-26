@@ -42,9 +42,9 @@ public class ProfileFragment extends Fragment {
         mEditText_age = view.findViewById(R.id.profile_field_age);
         mEditText_contact = view.findViewById(R.id.profile_field_contact);
 
-        mEditText_name.setText(profile.getName());
-        mEditText_age.setText(profile.getAge());
-        mEditText_contact.setText(profile.getContact());
+//        mEditText_name.setText(profile.getName());
+//        mEditText_age.setText(profile.getAge());
+//        mEditText_contact.setText(profile.getContact());
 
         return view;
     }

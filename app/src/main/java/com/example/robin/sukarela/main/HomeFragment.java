@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,9 +40,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         mLayoutManager = new LinearLayoutManager(getContext());
+        DividerItemDecoration decoration = new DividerItemDecoration(view.getContext(), mLayoutManager.getOrientation());
         mRecyclerView = view.findViewById(R.id.home_recyclerview);
 
+        // setup recyler view
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addItemDecoration(decoration);
         mRecyclerView.setAdapter(MainActivity.EVENT_ADAPTER);
 
         return view;
