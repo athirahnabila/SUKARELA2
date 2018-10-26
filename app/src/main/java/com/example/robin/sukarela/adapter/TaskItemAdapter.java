@@ -56,10 +56,10 @@ public class TaskItemAdapter extends ArrayAdapter<ItemTask> {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        vh.textTask.setText(task.getTitle());
+        vh.textTask.setText(EventActivity.event.isStatus_joins() + "");
         vh.textDesc.setText(task.getDescription());
 
-        if (EventActivity.join) {
+        if (EventActivity.event.isStatus_joins()) {
             vh.button_select.setVisibility(View.VISIBLE);
         } else {
             vh.button_select.setVisibility(View.INVISIBLE);

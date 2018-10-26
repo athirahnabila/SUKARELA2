@@ -1,17 +1,13 @@
 package com.example.robin.sukarela.event;
 
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.adapter.TaskItemAdapter;
@@ -21,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TaskFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class TaskFragment extends Fragment {
 
-    private TaskFragment.OnFragmentInteractionListener mListener;
+
     TaskItemAdapter adapter;
 
     public TaskFragment() {
@@ -50,44 +46,12 @@ public class TaskFragment extends Fragment implements AdapterView.OnItemClickLis
         adapter = new TaskItemAdapter(getActivity(), list);
 
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
 
         return view;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof TaskFragment.OnFragmentInteractionListener) {
-            mListener = (TaskFragment.OnFragmentInteractionListener) context;
-        } else {
-            Toast.makeText(context, "choose ", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     public void update() {
-        if (adapter != null){
+        if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
     }

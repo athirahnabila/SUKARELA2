@@ -39,13 +39,13 @@ public class JoinFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        JoinItemAdapter adapter = new JoinItemAdapter(ItemEvent.EVENTS);
-        LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
-        DividerItemDecoration decoration = new DividerItemDecoration(view.getContext(), manager.getOrientation());
-
-        mRecyclerView = view.findViewById(R.id.join_recyclerview);
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.addItemDecoration(decoration);
+//        JoinItemAdapter adapter = new JoinItemAdapter(ItemEvent.EVENTS);
+//        LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
+//        DividerItemDecoration decoration = new DividerItemDecoration(view.getContext(), manager.getOrientation());
+//
+//        mRecyclerView = view.findViewById(R.id.join_recyclerview);
+//        mRecyclerView.setAdapter(adapter);
+//        mRecyclerView.setLayoutManager(manager);
+//        mRecyclerView.addItemDecoration(decoration);
     }
 }

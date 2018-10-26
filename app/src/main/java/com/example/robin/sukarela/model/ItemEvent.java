@@ -1,15 +1,8 @@
 package com.example.robin.sukarela.model;
 
-import android.support.annotation.Nullable;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class ItemEvent {
-
-    public static final List<ItemEvent> EVENTS = new ArrayList<>();
-
 
     private String title;
     private String description;
@@ -18,7 +11,7 @@ public class ItemEvent {
     private Date date_posted;
     private Date date_event;
 
-    private int status;
+    private boolean status_joins;
 
 
     public String getTitle() {
@@ -61,11 +54,11 @@ public class ItemEvent {
         this.date_event = date_event;
     }
 
-    public int getStatus() {
-        return status;
+    public boolean isStatus_joins() {
+        return status_joins;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStatus_joins(boolean status_joins) {
+        this.status_joins = status_joins;
     }
 }

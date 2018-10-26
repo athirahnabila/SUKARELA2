@@ -32,7 +32,7 @@ public class JoinItemAdapter extends RecyclerView.Adapter<JoinItemAdapter.JoinVH
 
     @Override
     public void onBindViewHolder(@NonNull JoinVH joinVH, int i) {
-        ItemEvent event = ItemEvent.EVENTS.get(i);
+        ItemEvent event = new ItemEvent();
 
         joinVH.text_title.setText(event.getTitle());
         joinVH.text_date.setText("Completed : " + event.getDate_event());
