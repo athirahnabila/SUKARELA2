@@ -16,12 +16,12 @@ import com.example.robin.sukarela.model.ItemTask;
 
 import java.util.List;
 
-public class TaskItemAdapter extends ArrayAdapter<ItemTask> {
+public class willbedeleted extends ArrayAdapter<ItemTask> {
 
     private Context mContext;
     private List<ItemTask> mList;
 
-    public TaskItemAdapter(Context context, List<ItemTask> events) {
+    public willbedeleted(Context context, List<ItemTask> events) {
         super(context, R.layout.item_task, events);
 
         mList = events;
@@ -40,7 +40,7 @@ public class TaskItemAdapter extends ArrayAdapter<ItemTask> {
         ItemTask task = mList.get(position);
 
         // create item view holder
-        TaskItemAdapter.ViewHolder vh = new TaskItemAdapter.ViewHolder();
+        willbedeleted.ViewHolder vh = new willbedeleted.ViewHolder();
 
         if (convertView == null) {
             // create view for first time
