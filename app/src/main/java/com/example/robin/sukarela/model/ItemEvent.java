@@ -11,7 +11,7 @@ public class ItemEvent {
     private Date date_posted;
     private Date date_event;
 
-    private boolean status_joins;
+    private boolean joining;
 
 
     public String getTitle() {
@@ -54,11 +54,11 @@ public class ItemEvent {
         this.date_event = date_event;
     }
 
-    public boolean isStatus_joins() {
-        return status_joins;
+    public boolean isJoining() {
+        return joining;
     }
 
-    public void setStatus_joins(boolean status_joins) {
-        this.status_joins = status_joins;
+    public void setJoining(boolean joining) {
+        this.joining = joining;
     }
 }

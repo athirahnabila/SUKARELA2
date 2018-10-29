@@ -12,16 +12,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.robin.sukarela.adapter.EventItemAdapter;
 import com.example.robin.sukarela.main.HomeFragment;
 import com.example.robin.sukarela.main.JoinFragment;
 import com.example.robin.sukarela.main.ProfileFragment;
 import com.example.robin.sukarela.model.ItemEvent;
+import com.example.robin.sukarela.model.ItemProfile;
 import com.example.robin.sukarela.utility.EventHelper;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -121,11 +127,10 @@ public class MainActivity extends AppCompatActivity {
 
                                                             // if user join this event
                                                             if (uid.equals(mAuth.getCurrentUser().getUid())) {
-                                                                event.setStatus_joins(true);
-
+                                                                event.setJoining(true);
                                                                 break;
                                                             } else {
-                                                                event.setStatus_joins(false);
+                                                                event.setJoining(false);
                                                             }
                                                         }
                                                     }
@@ -168,11 +173,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (mAuth.getCurrentUser() == null) {
-            mBottomBar.setVisibility(View.GONE);
-        } else {
-            mBottomBar.setVisibility(View.VISIBLE);
-        }
+        updateProfile();
+        updateBar();
     }
 
     @Override
@@ -218,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
         updateFragment(homeFragment);
 
         mBottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -243,6 +246,51 @@ public class MainActivity extends AppCompatActivity {
     private void updateFragment(Fragment fragment) {
         if (fragment != null) {
             mFragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+        }
+    }
+
+    private void updateProfile(){
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null) {
+            // get user profile data
+            mFirestore
+                    .collection("users")
+                    .document(user.getUid())
+                    .get()
+                    .addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
+
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                            DocumentSnapshot snapshot = task.getResult();
+
+                            if (task.isSuccessful()) {
+
+                                if (snapshot != null && snapshot.exists()) {
+                                    ItemProfile profile = ItemProfile.USER_PROFILE;
+                                    profile.setName(snapshot.getString("name"));
+                                    profile.setContact(snapshot.getString("contact"));
+                                    profile.setAge(snapshot.getLong("age").intValue());
+
+                                    updateBar();
+                                }
+                            }
+                            else {
+                                Toast.makeText(MainActivity.this, "Load user data fail!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void updateBar(){
+        if (mAuth.getCurrentUser() == null) {
+            mBottomBar.setVisibility(View.GONE);
+            mToolbar.setSubtitle("Sign in is needed");
+        } else {
+            mBottomBar.setVisibility(View.VISIBLE);
+            mToolbar.setSubtitle("Welcome, " + ItemProfile.USER_PROFILE.getName() + "...");
         }
     }
 }

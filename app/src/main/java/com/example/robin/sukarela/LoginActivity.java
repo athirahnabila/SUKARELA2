@@ -34,22 +34,22 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
+    // static data
     private static final String TAG = "LoginActivity";
 
     int page = 0;
 
-    // views
-    CoordinatorLayout mRoot;
-
-    CircleImageView mImage;
-
-    TabLayout mTab;
-    ViewPager mPager;
+    // adapters
     LoginTabAdapter mAdapter;
 
+    // views
+    CoordinatorLayout mRoot;
+    CircleImageView mImage;
+    TabLayout mTab;
+    ViewPager mPager;
     Button mButton_submit;
 
-    //firebase
+    //firebases
     FirebaseAuth mAuth;
     FirebaseFirestore mFirestore;
 
@@ -147,7 +147,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else if (e instanceof FirebaseTooManyRequestsException) {
                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-
             }
 
             @Override
@@ -174,36 +173,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(FirebaseUser user) {
         if (user != null) {
 
-            // get user profile data
-            mFirestore
-                    .collection("users")
-                    .document(user.getUid())
-                    .get()
-                    .addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
-
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                            DocumentSnapshot snapshot = task.getResult();
-
-                            if (task.isSuccessful()) {
-
-                                if (snapshot != null && snapshot.exists()) {
-                                    ItemProfile profile = ItemProfile.USER_PROFILE;
-                                    profile.setName(snapshot.getString("name"));
-                                    profile.setContact(snapshot.getString("contact"));
-                                    profile.setAge(snapshot.getLong("age").intValue());
-
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                            else {
-                                Toast.makeText(LoginActivity.this, "Load user data fail!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }

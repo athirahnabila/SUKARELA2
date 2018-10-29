@@ -37,7 +37,7 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("uid", (String) EventHelper.list()[index]);
+                bundle.putString("event_uid", (String) EventHelper.list()[index]);
 
                 Log.i("MainActivity", "onClick: " + EventHelper.list()[index]);
                 Log.i("MainActivity", "onClick: " + index);

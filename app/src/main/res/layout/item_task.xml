@@ -6,29 +6,29 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/task_text_title"
+        android:id="@+id/taskitem_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_toStartOf="@id/task_button_select"
-        android:layout_toLeftOf="@id/task_button_select"
+        android:layout_toStartOf="@id/taskitem_button_select"
+        android:layout_toLeftOf="@id/taskitem_button_select"
         android:textColor="@color/black"
         android:textSize="22sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/task_text_description"
+        android:id="@+id/taskitem_text_description"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:layout_below="@id/task_button_select"
+        android:layout_below="@id/taskitem_button_select"
         android:layout_marginTop="18dp"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/task_button_select"
+        android:id="@+id/taskitem_button_select"
         android:layout_width="96dp"
         android:layout_height="32dp"
         android:layout_alignParentTop="true"

@@ -2,7 +2,6 @@ package com.example.robin.sukarela;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,22 +11,31 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.robin.sukarela.adapter.DetailTabAdapter;
+import com.example.robin.sukarela.adapter.TaskItemAdapter;
 import com.example.robin.sukarela.model.ItemEvent;
+import com.example.robin.sukarela.model.ItemTask;
 import com.example.robin.sukarela.utility.EventHelper;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
-public class EventActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class EventActivity extends AppCompatActivity {
 
     // static datas
     public static ItemEvent event;
+    public static String event_uid;
+
 
     // adapters
     DetailTabAdapter mDetailTabAdapter;
 
     // views
-    private Toolbar mToolbar;
-    private ViewPager mViewPager;
-    private TabLayout mTabLayout;
+    Toolbar mToolbar;
+    ViewPager mViewPager;
+    TabLayout mTabLayout;
 
     // firebases
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -38,30 +46,27 @@ public class EventActivity extends AppCompatActivity implements FirebaseAuth.Aut
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
+        // initialize adapters
         mDetailTabAdapter = new DetailTabAdapter(getSupportFragmentManager());
 
+        // initialize child views
         mTabLayout = findViewById(R.id.event_tab);
         mViewPager = findViewById(R.id.event_pager);
         mToolbar = findViewById(R.id.include_toolbar);
 
-        Bundle bundle = getIntent().getExtras();
-
-        if (bundle != null) {
-            event = EventHelper.get(bundle.getString("uid"));
-            setTitle(event.getTitle());
-        }
-
-        // listener to auth
-        mAuth.addAuthStateListener(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
+        // setup activity
         setSupportActionBar(mToolbar);
-        mViewPager.setAdapter(mDetailTabAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            event_uid = bundle.getString("event_uid");
+            event = EventHelper.get(event_uid);
+
+            setTitle(event.getTitle());
+
+            mViewPager.setAdapter(mDetailTabAdapter);
+            mTabLayout.setupWithViewPager(mViewPager);
+        }
     }
 
     @Override
@@ -90,10 +95,5 @@ public class EventActivity extends AppCompatActivity implements FirebaseAuth.Aut
         }
 
         return true;
-    }
-
-    @Override
-    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
     }
 }
