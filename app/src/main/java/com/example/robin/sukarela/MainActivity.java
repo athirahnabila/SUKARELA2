@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                                         // add and modify is same operation
                                         case ADDED:
                                         case MODIFIED:
+                                            Toast.makeText(MainActivity.this, "Receive update", Toast.LENGTH_SHORT).show();
 
                                             // new event container
                                             ItemEvent event = new ItemEvent();

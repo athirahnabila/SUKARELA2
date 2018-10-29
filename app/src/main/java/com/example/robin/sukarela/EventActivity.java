@@ -11,16 +11,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.robin.sukarela.adapter.DetailTabAdapter;
-import com.example.robin.sukarela.adapter.TaskItemAdapter;
 import com.example.robin.sukarela.model.ItemEvent;
-import com.example.robin.sukarela.model.ItemTask;
 import com.example.robin.sukarela.utility.EventHelper;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ListenerRegistration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EventActivity extends AppCompatActivity {
 

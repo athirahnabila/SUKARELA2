@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:padding="8dp">
 
@@ -15,17 +15,16 @@
         android:layout_toStartOf="@id/taskitem_button_select"
         android:layout_toLeftOf="@id/taskitem_button_select"
         android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/taskitem_text_description"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:layout_below="@id/taskitem_button_select"
-        android:layout_marginTop="18dp"
+        android:layout_below="@id/taskitem_text_title"
+        android:layout_marginTop="12dp"
         android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/taskitem_button_select"

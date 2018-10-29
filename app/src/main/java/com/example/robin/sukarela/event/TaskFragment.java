@@ -15,10 +15,7 @@ import android.view.ViewGroup;
 import com.example.robin.sukarela.EventActivity;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.adapter.TaskItemAdapter;
-import com.example.robin.sukarela.model.ItemEvent;
 import com.example.robin.sukarela.model.ItemTask;
-import com.example.robin.sukarela.utility.EventHelper;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -65,7 +62,19 @@ public class TaskFragment extends Fragment implements EventListener<QuerySnapsho
         assert getContext() != null;
 
         // initiliaze datas
+        String description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
+
         mTasks = new ArrayList<>();
+        ItemTask task1 = new ItemTask("Memasak", description);
+        ItemTask task2 = new ItemTask("Mengemas", description);
+        ItemTask task3 = new ItemTask("Membina", description);
+        ItemTask task4 = new ItemTask("Memberi", description);
+        mTasks.add(task1);
+        mTasks.add(task2);
+        mTasks.add(task3);
+        mTasks.add(task4);
+
+
         mLinearLayout = new LinearLayoutManager(getContext());
         mDecoration = new DividerItemDecoration(getContext(), mLinearLayout.getOrientation());
 
@@ -86,6 +95,8 @@ public class TaskFragment extends Fragment implements EventListener<QuerySnapsho
 
         // setup fragment
         mRecyclerView.setLayoutManager(mLinearLayout);
+        mRecyclerView.addItemDecoration(mDecoration);
+        mRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
@@ -117,7 +128,6 @@ public class TaskFragment extends Fragment implements EventListener<QuerySnapsho
                         // add and modify is same operation
                         case ADDED:
                         case MODIFIED:
-
 
 
                             break;

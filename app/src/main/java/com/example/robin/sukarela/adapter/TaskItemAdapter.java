@@ -2,6 +2,7 @@ package com.example.robin.sukarela.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskVH
     @Override
     public TaskVH onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         // item view
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_task, viewGroup, false);
+        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_task, viewGroup, false);
 
         return new TaskVH(view);
     }
@@ -54,6 +55,8 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskVH
 
     @Override
     public int getItemCount() {
+
+        Log.i("message", "getItemCount: " + mTasks.size());
         return mTasks.size();
     }
 
