@@ -100,7 +100,11 @@ public class MainActivity extends AppCompatActivity {
                                         // add and modify is same operation
                                         case ADDED:
                                         case MODIFIED:
-                                            Toast.makeText(MainActivity.this, "Receive update", Toast.LENGTH_SHORT).show();
+
+                                            // show message for modify event
+                                            if (change.getType().equals(DocumentChange.Type.MODIFIED)){
+                                                Toast.makeText(MainActivity.this, "Receive update", Toast.LENGTH_SHORT).show();
+                                            }
 
                                             // new event container
                                             ItemEvent event = new ItemEvent();
@@ -129,10 +133,20 @@ public class MainActivity extends AppCompatActivity {
                                                             // if user join this event
                                                             if (uid.equals(mAuth.getCurrentUser().getUid())) {
                                                                 event.setJoining(true);
-                                                                break;
                                                             } else {
                                                                 event.setJoining(false);
                                                             }
+
+                                                            if (EventActivity.menuItem != null) {
+
+                                                                if (event.isJoining()){
+                                                                    EventActivity.menuItem.setTitle(R.string.text_cancel);
+                                                                } else {
+                                                                    EventActivity.menuItem.setTitle(R.string.text_join);
+                                                                }
+                                                            }
+
+                                                            EventActivity.ADAPTER.notifyDataSetChanged();
                                                         }
                                                     }
                                                 }
@@ -184,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (mListener != null) {
             mListener.remove();
-            Log.i(TAG, "onDestroy: " + "success remove events listener.");
+            Log.i(TAG, "onDestroy: " + "remove events listener.");
         }
     }
 

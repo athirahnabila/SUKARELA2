@@ -13,10 +13,13 @@ import com.example.robin.sukarela.EventActivity;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.model.ItemEvent;
 import com.example.robin.sukarela.model.ItemTask;
+import com.example.robin.sukarela.utility.EventHelper;
 
 import java.util.List;
 
 public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskVH> {
+
+    private static final String TAG = "TaskItemAdapter";
 
     private List<ItemTask> mTasks;
 
@@ -37,7 +40,7 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskVH
     @Override
     public void onBindViewHolder(@NonNull TaskVH taskVH, int i) {
         // require datas
-        ItemEvent event = EventActivity.event;
+        ItemEvent event = EventHelper.get(EventActivity.event_uid);
         ItemTask task = mTasks.get(i);
 
         if (event != null) {
@@ -49,14 +52,14 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskVH
 
             // button select task avalaible to joined user for this event
             if (status_join) taskVH.select.setVisibility(View.VISIBLE);
-            else taskVH.select.setVisibility(View.GONE);
+            else taskVH.select.setVisibility(View.INVISIBLE);
+
+            Log.i(TAG, "onBindViewHolder: " + status_join);
         }
     }
 
     @Override
     public int getItemCount() {
-
-        Log.i("message", "getItemCount: " + mTasks.size());
         return mTasks.size();
     }
 
