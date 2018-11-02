@@ -29,7 +29,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -37,7 +39,7 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
 
     // declare static component
     private static final String TAG = "EventActivity";
-    public static final List<TaskModel> TASKS = new ArrayList<>();
+    public static final Map<String, TaskModel> TASK_MODEL_MAP = new HashMap<>();
     public static final TaskAdapter TASK_ADAPTER = new TaskAdapter();
 
     // declare component
@@ -187,8 +189,6 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
             // checking numbers of event in events collection
             if (!queryDocumentSnapshots.isEmpty()) {
 
-                TASKS.clear();
-
                 for (DocumentChange change : queryDocumentSnapshots.getDocumentChanges()) {
                     // snapshot and task
                     QueryDocumentSnapshot snapshot = change.getDocument();
@@ -201,13 +201,12 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
                         case ADDED:
                         case MODIFIED:
 
-                            TASKS.add(taskModel);
-                            Log.i(TAG, "onEvent: " + taskModel);
+                            TASK_MODEL_MAP.put(snapshot.getId(), taskModel);
 
                             break;
                         case REMOVED:
 
-                            TASKS.remove(taskModel);
+                            TASK_MODEL_MAP.remove(snapshot.getId());
 
                             break;
                     }
@@ -223,6 +222,9 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
     }
 
     private void initUI() {
+        // setup TASK_MODEL_MAP
+        TASK_MODEL_MAP.clear();
+
         // setup activity
         setSupportActionBar(toolbar);
 
@@ -234,7 +236,6 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
 
             setTitle(event.getTitle());
 
-            TASKS.clear();
             listenerRegistration = createTaskListener(event_uid);
         }
 

@@ -8,8 +8,11 @@ import com.google.firebase.firestore.Exclude;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class EventModel {
+
+    private Map<String, String> task_assign;
 
     private List<String> join_list;
 
@@ -22,6 +25,14 @@ public class EventModel {
 
     public EventModel() {
         // require empty contructor
+    }
+
+    public Map<String, String> getTask_assign() {
+        return task_assign;
+    }
+
+    public void setTask_assign(Map<String, String> task_assign) {
+        this.task_assign = task_assign;
     }
 
     public List<String> getJoin_list() {

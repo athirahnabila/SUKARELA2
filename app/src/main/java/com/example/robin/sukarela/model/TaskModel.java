@@ -4,8 +4,6 @@ import java.util.List;
 
 public class TaskModel {
 
-    private List<String> join_list;
-
     private String title;
     private String description;
 
@@ -13,13 +11,6 @@ public class TaskModel {
         // require empty constructor
     }
 
-    public List<String> getJoin_list() {
-        return join_list;
-    }
-
-    public void setJoin_list(List<String> join_list) {
-        this.join_list = join_list;
-    }
 
     public String getTitle() {
         return title;
@@ -40,7 +31,6 @@ public class TaskModel {
     @Override
     public String toString() {
         return "TaskModel{" +
-                "join_list=" + join_list +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 '}';
