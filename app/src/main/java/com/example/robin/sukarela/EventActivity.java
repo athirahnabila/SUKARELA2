@@ -12,16 +12,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.robin.sukarela.adapter.DetailTabAdapter;
-import com.example.robin.sukarela.adapter.TaskItemAdapter;
-import com.example.robin.sukarela.model.ItemEvent;
-import com.example.robin.sukarela.model.ItemTask;
-import com.example.robin.sukarela.utility.EventHelper;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.robin.sukarela.adapter.TaskAdapter;
+import com.example.robin.sukarela.model.EventModel;
+import com.example.robin.sukarela.model.TaskModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -37,26 +35,27 @@ import javax.annotation.Nullable;
 
 public class EventActivity extends AppCompatActivity implements EventListener<QuerySnapshot> {
 
-    // static datas
-    public static ItemEvent event;
-    public static String event_uid;
-    public static MenuItem menuItem;
-    public static final List<ItemTask> TASKS = new ArrayList<>();
-    public static final TaskItemAdapter ADAPTER = new TaskItemAdapter(TASKS);
+    // declare static component
     private static final String TAG = "EventActivity";
+    public static final List<TaskModel> TASKS = new ArrayList<>();
+    public static final TaskAdapter TASK_ADAPTER = new TaskAdapter();
 
-    // adapters
-    DetailTabAdapter mDetailTabAdapter;
+    // declare component
+    public static String event_uid;
+    private MenuItem menuItem;
 
-    // views
-    Toolbar mToolbar;
-    ViewPager mViewPager;
-    TabLayout mTabLayout;
+    // declare adapter
+    DetailTabAdapter detailTabAdapter;
 
-    // firebases
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
-    ListenerRegistration mListenerRegistration;
+    // declare view
+    Toolbar toolbar;
+    ViewPager viewPager;
+    TabLayout tabLayout;
+
+    // firebase
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    ListenerRegistration listenerRegistration;
 
 
     @Override
@@ -64,42 +63,15 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        // initialize adapters
-        mDetailTabAdapter = new DetailTabAdapter(getSupportFragmentManager());
+        // initialize adapter
+        detailTabAdapter = new DetailTabAdapter(getSupportFragmentManager());
 
-        // initialize child views
-        mTabLayout = findViewById(R.id.event_tab);
-        mViewPager = findViewById(R.id.event_pager);
-        mToolbar = findViewById(R.id.include_toolbar);
+        // initialize child view
+        tabLayout = findViewById(R.id.event_tab);
+        viewPager = findViewById(R.id.event_pager);
+        toolbar = findViewById(R.id.include_toolbar);
 
-        // initiliaze datas
-        String description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
-
-        TASKS.clear();
-        ItemTask task1 = new ItemTask("Memasak", description);
-        ItemTask task2 = new ItemTask("Mengemas", description);
-        ItemTask task3 = new ItemTask("Membina", description);
-        ItemTask task4 = new ItemTask("Memberi", description);
-        TASKS.add(task1);
-        TASKS.add(task2);
-        TASKS.add(task3);
-        TASKS.add(task4);
-
-        // setup activity
-        setSupportActionBar(mToolbar);
-
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            event_uid = bundle.getString("event_uid");
-            event = EventHelper.get(event_uid);
-
-            setTitle(event.getTitle());
-
-            mViewPager.setAdapter(mDetailTabAdapter);
-            mTabLayout.setupWithViewPager(mViewPager);
-
-            mListenerRegistration = createTaskListener(event_uid);
-        }
+        initUI();
     }
 
     @Override
@@ -111,12 +83,9 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
     public void onDestroy() {
         super.onDestroy();
 
-        if (mListenerRegistration != null) {
-            mListenerRegistration.remove();
-            Log.i(TAG, "onDestroy: " + "remove task listener.");
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
         }
-
-        menuItem = null;
     }
 
     @Override
@@ -126,11 +95,7 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
         // need to to use later
         menuItem = menu.getItem(0);
 
-        if (EventHelper.get(event_uid).isJoining()){
-            menuItem.setTitle(R.string.text_cancel);
-        } else {
-            menuItem.setTitle(R.string.text_join);
-        }
+        updateUI(MainActivity.EVENT_MAP.get(event_uid));
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -141,111 +106,77 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
 
             case R.id.action_join:
 
-                ItemEvent updated = EventHelper.get(event_uid);
-
-                // check user is needed to login or not to continue join a event
-                if (mAuth.getCurrentUser() == null) {
+                if (auth.getCurrentUser() == null) {
+                    // for guest
                     Intent intent = new Intent(this, LoginActivity.class);
                     startActivity(intent);
                     finish();
 
                 } else {
-                    // get event document to join
-                    final DocumentReference doc = mFirestore
+                    // for user
+                    final DocumentReference doc = firestore
                             .collection("events")
                             .document(event_uid);
 
-                    if (updated.isJoining()) {
+                    firestore.runTransaction(new Transaction.Function<EventModel>() {
 
-                        // transaction for cancel joining session
-                        mFirestore.runTransaction(new Transaction.Function<Void>() {
+                        @Override
+                        public EventModel apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                            // user that wan to edit this status
+                            String user_uid = auth.getUid();
 
-                            @android.support.annotation.Nullable
-                            @Override
-                            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                            // read database first
+                            EventModel event = transaction.get(doc).toObject(EventModel.class);
 
-                                // read event document
-                                DocumentSnapshot snapshot = transaction.get(doc);
+                            // event must not null
+                            assert event != null;
 
-                                // get event field join_list
-                                Object o = snapshot.get("join_list");
+                            // check current selected action is join or cancel
+                            if (event.isStatus()) {
+                                // is true, it means current action is cancel
+                                event.getJoin_list().remove(user_uid);
 
-                                if (o instanceof ArrayList) {
-                                    ArrayList join_list = (ArrayList) o;
+                            } else {
+                                // caution step
+                                if (event.getJoin_list().contains(user_uid)) return event;
 
-                                    String uid = mAuth.getUid();
+                                // is false, it means current action is join
+                                event.getJoin_list().add(user_uid);
+                            }
 
-                                    // delete user id from join list
-                                    join_list.remove(uid);
+                            // write database second
+                            transaction.update(doc, "join_list", event.getJoin_list());
 
-                                    // update event document
-                                    transaction.update(doc, "join_list", join_list);
+                            // return event
+                            return event;
+                        }
+                    })
+                            .addOnCompleteListener(new OnCompleteListener<EventModel>() {
+                                @Override
+                                public void onComplete(@NonNull Task<EventModel> task) {
+                                    EventModel eventModel = task.getResult();
+
+                                    // check complete on success or fail
+                                    if (task.isSuccessful()) {
+                                        assert eventModel != null;
+
+                                        updateUI(eventModel);
+                                        Log.i(TAG, "onComplete: Join event is " + eventModel.isStatus());
+                                    }
                                 }
-
-                                return null;
-                            }
-                        }).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "Transaction success!");
-                            }
-                        })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Transaction failure.", e);
-                                    }
-                                });
-
-                    } else {
-                        // transaction for cancel joining session
-                        mFirestore.runTransaction(new Transaction.Function<Void>() {
-
-                            @android.support.annotation.Nullable
-                            @Override
-                            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-
-                                // read event document
-                                DocumentSnapshot snapshot = transaction.get(doc);
-
-                                // get event field join_list
-                                Object o = snapshot.get("join_list");
-
-                                if (o instanceof ArrayList) {
-                                    ArrayList join_list = (ArrayList) o;
-
-                                    String uid = mAuth.getUid();
-
-                                    // to avoid duplicate user
-                                    if (!join_list.contains(uid)) {
-                                        join_list.add(uid);
-                                    }
-
-                                    // update event document
-                                    transaction.update(doc, "join_list", join_list);
-                                }
-
-                                return null;
-                            }
-                        }).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "Transaction success!");
-                            }
-                        })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Transaction failure.", e);
-                                    }
-                                });
-                    }
+                            });
                 }
-
                 break;
         }
 
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
     }
 
     @Override
@@ -256,9 +187,12 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
             // checking numbers of event in events collection
             if (!queryDocumentSnapshots.isEmpty()) {
 
+                TASKS.clear();
+
                 for (DocumentChange change : queryDocumentSnapshots.getDocumentChanges()) {
-                    // contain event data
+                    // snapshot and task
                     QueryDocumentSnapshot snapshot = change.getDocument();
+                    TaskModel taskModel = snapshot.toObject(TaskModel.class);
 
                     // checking which type of changes happen
                     switch (change.getType()) {
@@ -267,16 +201,20 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
                         case ADDED:
                         case MODIFIED:
 
+                            TASKS.add(taskModel);
+                            Log.i(TAG, "onEvent: " + taskModel);
 
                             break;
                         case REMOVED:
+
+                            TASKS.remove(taskModel);
 
                             break;
                     }
                 }
 
                 // update recycler view that use this adapter
-                ADAPTER.notifyDataSetChanged();
+                TASK_ADAPTER.notifyDataSetChanged();
 
             } else {
                 Log.i(TAG, "onEvent: " + "no event receive.");
@@ -284,8 +222,36 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
         }
     }
 
+    private void initUI() {
+        // setup activity
+        setSupportActionBar(toolbar);
+
+        // get pass bundle
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            event_uid = bundle.getString("event_uid");
+            EventModel event = MainActivity.EVENT_MAP.get(event_uid);
+
+            setTitle(event.getTitle());
+
+            TASKS.clear();
+            listenerRegistration = createTaskListener(event_uid);
+        }
+
+        // setup viewPager
+        viewPager.setAdapter(detailTabAdapter);
+
+        // setup tabLayout
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void updateUI(@NonNull EventModel event) {
+
+        menuItem.setTitle(event.isStatus() ? R.string.text_cancel : R.string.text_join);
+    }
+
     private ListenerRegistration createTaskListener(String event_uid) {
-        return mFirestore
+        return firestore
                 .collection("events")
                 .document(event_uid)
                 .collection("tasks")

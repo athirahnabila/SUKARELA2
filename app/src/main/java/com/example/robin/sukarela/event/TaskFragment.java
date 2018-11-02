@@ -50,7 +50,7 @@ public class TaskFragment extends Fragment {
         // setup recycler view
         mRecyclerView.setLayoutManager(mLinearLayout);
         mRecyclerView.addItemDecoration(mDecoration);
-        mRecyclerView.setAdapter(EventActivity.ADAPTER);
+        mRecyclerView.setAdapter(EventActivity.TASK_ADAPTER);
 
         return view;
     }

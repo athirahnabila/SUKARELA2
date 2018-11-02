@@ -9,16 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.model.ItemEvent;
+import com.example.robin.sukarela.model.EventModel;
 
 import java.util.List;
 
 public class JoinItemAdapter extends RecyclerView.Adapter<JoinItemAdapter.JoinVH> {
 
-    private List<ItemEvent> mList;
+    private List<EventModel> mList;
 
 
-    public JoinItemAdapter(List<ItemEvent> data) {
+    public JoinItemAdapter(List<EventModel> data) {
         this.mList = data;
     }
 
@@ -32,10 +32,10 @@ public class JoinItemAdapter extends RecyclerView.Adapter<JoinItemAdapter.JoinVH
 
     @Override
     public void onBindViewHolder(@NonNull JoinVH joinVH, int i) {
-        ItemEvent event = new ItemEvent();
+        EventModel event = new EventModel();
 
         joinVH.text_title.setText(event.getTitle());
-        joinVH.text_date.setText("Completed : " + event.getDate_event());
+        joinVH.text_date.setText("Completed : " + event.getStart());
     }
 
 

@@ -10,23 +10,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.robin.sukarela.EventActivity;
+import com.example.robin.sukarela.MainActivity;
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.model.ItemEvent;
-import com.example.robin.sukarela.model.ItemTask;
-import com.example.robin.sukarela.utility.EventHelper;
+import com.example.robin.sukarela.model.EventModel;
+import com.example.robin.sukarela.model.TaskModel;
 
-import java.util.List;
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskVH> {
 
-public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskVH> {
+    private static final String TAG = "TaskAdapter";
 
-    private static final String TAG = "TaskItemAdapter";
-
-    private List<ItemTask> mTasks;
-
-
-    public TaskItemAdapter(List<ItemTask> list) {
-        this.mTasks = list;
-    }
 
     @NonNull
     @Override
@@ -40,11 +32,11 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskVH
     @Override
     public void onBindViewHolder(@NonNull TaskVH taskVH, int i) {
         // require datas
-        ItemEvent event = EventHelper.get(EventActivity.event_uid);
-        ItemTask task = mTasks.get(i);
+        EventModel event = MainActivity.EVENT_MAP.get(EventActivity.event_uid);
+        TaskModel task = EventActivity.TASKS.get(i);
 
         if (event != null) {
-            boolean status_join = event.isJoining();
+            boolean status_join = event.isStatus();
 
             // fill task data
             taskVH.title.setText(task.getTitle());
@@ -53,14 +45,12 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskVH
             // button select task avalaible to joined user for this event
             if (status_join) taskVH.select.setVisibility(View.VISIBLE);
             else taskVH.select.setVisibility(View.INVISIBLE);
-
-            Log.i(TAG, "onBindViewHolder: " + status_join);
         }
     }
 
     @Override
     public int getItemCount() {
-        return mTasks.size();
+        return EventActivity.TASKS.size();
     }
 
 

@@ -13,8 +13,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.robin.sukarela.EventActivity;
+import com.example.robin.sukarela.MainActivity;
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.model.ItemEvent;
+import com.example.robin.sukarela.model.EventModel;
 
 
 public class DetailFragment extends Fragment {
@@ -44,7 +45,7 @@ public class DetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initUI(view);
-        updateUI(EventActivity.event);
+        updateUI(MainActivity.EVENT_MAP.get(EventActivity.event_uid));
     }
 
     private void initUI(View view) {
@@ -55,7 +56,10 @@ public class DetailFragment extends Fragment {
         text_location = view.findViewById(R.id.text_location);
     }
 
-    private void updateUI(ItemEvent event) {
+    private void updateUI(EventModel event) {
+
+
+
         Glide
                 .with(image_event.getContext())
                 .load(event.getImage())

@@ -14,16 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.robin.sukarela.adapter.EventItemAdapter;
+import com.example.robin.sukarela.adapter.EventAdapter;
 import com.example.robin.sukarela.main.HomeFragment;
 import com.example.robin.sukarela.main.JoinFragment;
 import com.example.robin.sukarela.main.ProfileFragment;
-import com.example.robin.sukarela.model.ItemEvent;
+import com.example.robin.sukarela.model.EventModel;
 import com.example.robin.sukarela.model.ItemProfile;
-import com.example.robin.sukarela.utility.EventHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
@@ -35,30 +33,33 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EventAdapter.OnItemClick {
 
-    // adapters
     private static final String TAG = "MainActivity";
-    public static final EventItemAdapter EVENT_ADAPTER = new EventItemAdapter();
 
-    // activity fragments
+    // declare static component
+    public static final Map<String, EventModel> EVENT_MAP = new HashMap<>();
+    public static final EventAdapter EVENT_ADAPTER = new EventAdapter();
+
+    // activity fragment
     HomeFragment homeFragment = new HomeFragment();
     JoinFragment joinFragment = new JoinFragment();
     ProfileFragment profileFragment = new ProfileFragment();
 
-    // views
-    private Toolbar mToolbar;
-    private BottomNavigationView mBottomBar;
-    private FragmentManager mFragmentManager;
+    // declare child view
+    private Toolbar toolbar;
+    private BottomNavigationView bottomNavigationView;
+    private FragmentManager fragmentManager;
 
-    // firebases
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
-    ListenerRegistration mListener;
+    // declare firebase
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    ListenerRegistration listenerRegistration;
 
 
     @Override
@@ -66,18 +67,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // views
-        mToolbar = findViewById(R.id.include_toolbar);
-        mBottomBar = findViewById(R.id.main_bottombar);
-        mFragmentManager = getSupportFragmentManager();
+        // initialize view
+        toolbar = findViewById(R.id.include_toolbar);
+        bottomNavigationView = findViewById(R.id.main_bottombar);
+        fragmentManager = getSupportFragmentManager();
 
         // setup ui
         initUI();
 
         // start listen to available event
-        mListener = mFirestore
+        listenerRegistration = firestore
                 .collection("/events")
-                .orderBy("date_posted") // from latest to old event
+                .orderBy("start") // from latest to old event
                 .limit(10) // display only top 10 event
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
 
@@ -101,80 +102,25 @@ public class MainActivity extends AppCompatActivity {
                                         case ADDED:
                                         case MODIFIED:
 
-                                            // show message for modify event
-                                            if (change.getType().equals(DocumentChange.Type.MODIFIED)){
-                                                Toast.makeText(MainActivity.this, "Receive update", Toast.LENGTH_SHORT).show();
-                                            }
-
-                                            // new event container
-                                            ItemEvent event = new ItemEvent();
-
-                                            // process data
-                                            String title = snapshot.getString("title");
-                                            String description = snapshot.getString("description");
-                                            String image = snapshot.getString("image");
-                                            Timestamp date_posted = snapshot.getTimestamp("date_posted");
-                                            Timestamp date_event = snapshot.getTimestamp("date_event");
-                                            Object joins = snapshot.get("join_list");
-
-                                            // check joined status to current login user
-                                            if (mAuth.getCurrentUser() != null) {
-
-                                                // doing some datatype filtering
-                                                if (joins instanceof ArrayList) {
-                                                    ArrayList join_list = (ArrayList) joins;
-
-                                                    for (Object o : join_list) {
-                                                        // checking object is string, it should string
-                                                        // cheking user is a volunteer for this event or not
-                                                        if (o instanceof String) {
-                                                            String uid = (String) o;
-
-                                                            // if user join this event
-                                                            if (uid.equals(mAuth.getCurrentUser().getUid())) {
-                                                                event.setJoining(true);
-                                                            } else {
-                                                                event.setJoining(false);
-                                                            }
-
-                                                            if (EventActivity.menuItem != null) {
-
-                                                                if (event.isJoining()){
-                                                                    EventActivity.menuItem.setTitle(R.string.text_cancel);
-                                                                } else {
-                                                                    EventActivity.menuItem.setTitle(R.string.text_join);
-                                                                }
-                                                            }
-
-                                                            EventActivity.ADAPTER.notifyDataSetChanged();
-                                                        }
-                                                    }
-                                                }
-                                            }
-
-                                            // remove annoying error message
-                                            assert date_posted != null;
-                                            assert date_event != null;
-
-                                            // attach data
-                                            event.setTitle(title);
-                                            event.setDescription(description);
-                                            event.setImage(image);
-                                            event.setDate_posted(date_posted.toDate());
-                                            event.setDate_event(date_event.toDate());
+                                            // cast data snapshot into data model
+                                            EventModel eventModel = snapshot.toObject(EventModel.class);
 
                                             // add item
-                                            EventHelper.add(snapshot.getId(), event);
+                                            EVENT_MAP.put(snapshot.getId(), eventModel);
+
+                                            Log.i(TAG, "onEvent: " + eventModel);
 
                                             break;
                                         case REMOVED:
-                                            EventHelper.remove(snapshot.getId());
+                                            // remove event using key id
+                                            EVENT_MAP.remove(snapshot.getId());
                                             break;
                                     }
                                 }
 
                                 // update recycler view that use this adapter
                                 EVENT_ADAPTER.notifyDataSetChanged();
+                                EventActivity.TASK_ADAPTER.notifyDataSetChanged();
 
                             } else {
                                 Log.i(TAG, "onEvent: " + "no event receive.");
@@ -196,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mListener != null) {
-            mListener.remove();
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
             Log.i(TAG, "onDestroy: " + "remove events listener.");
         }
     }
@@ -215,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.main_option_signout:
 
                 // firebase logout
-                mAuth.signOut();
+                auth.signOut();
 
                 // go to login activity
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -230,11 +176,26 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onItemClick(String uid) {
+        Bundle bundle = new Bundle();
+        bundle.putString("event_uid", uid);
+
+        Intent intent = new Intent(this, EventActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
     private void initUI() {
-        setSupportActionBar(mToolbar);
+        // setup toolbar
+        setSupportActionBar(toolbar);
+
+        // setup default fragment
         updateFragment(homeFragment);
 
-        mBottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        // setup bottomNavigationView
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -256,20 +217,23 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        // setup EVENT_ADAPTER
+        EVENT_ADAPTER.setOnItemClick(this);
     }
 
     private void updateFragment(Fragment fragment) {
         if (fragment != null) {
-            mFragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
         }
     }
 
-    private void updateProfile(){
-        FirebaseUser user = mAuth.getCurrentUser();
+    private void updateProfile() {
+        FirebaseUser user = auth.getCurrentUser();
 
         if (user != null) {
             // get user profile data
-            mFirestore
+            firestore
                     .collection("users")
                     .document(user.getUid())
                     .get()
@@ -286,12 +250,11 @@ public class MainActivity extends AppCompatActivity {
                                     ItemProfile profile = ItemProfile.USER_PROFILE;
                                     profile.setName(snapshot.getString("name"));
                                     profile.setContact(snapshot.getString("contact"));
-                                    profile.setAge(snapshot.getLong("age").intValue());
+                                    profile.setAge(10);
 
                                     updateBar();
                                 }
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(MainActivity.this, "Load user data fail!", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -299,13 +262,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateBar(){
-        if (mAuth.getCurrentUser() == null) {
-            mBottomBar.setVisibility(View.GONE);
-            mToolbar.setSubtitle("Sign in is needed");
+    private void updateBar() {
+        if (auth.getCurrentUser() == null) {
+            bottomNavigationView.setVisibility(View.GONE);
+            toolbar.setSubtitle("Sign in is needed");
         } else {
-            mBottomBar.setVisibility(View.VISIBLE);
-            mToolbar.setSubtitle("Welcome, " + ItemProfile.USER_PROFILE.getName() + "...");
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            toolbar.setSubtitle("Welcome, " + ItemProfile.USER_PROFILE.getName() + "...");
         }
     }
 }

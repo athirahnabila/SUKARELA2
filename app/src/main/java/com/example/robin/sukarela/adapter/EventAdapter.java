@@ -1,10 +1,7 @@
 package com.example.robin.sukarela.adapter;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +9,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.robin.sukarela.EventActivity;
+import com.example.robin.sukarela.MainActivity;
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.model.ItemEvent;
-import com.example.robin.sukarela.utility.EventHelper;
+import com.example.robin.sukarela.model.EventModel;
 
-public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.EventHolder> {
+import java.util.Map;
+
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder> {
+
+    // declare component
+    private Map<String, EventModel> map;
+    private OnItemClick onItemClick;
+
+
+    public EventAdapter() {
+        this.map = MainActivity.EVENT_MAP;
+    }
 
     @NonNull
     @Override
@@ -29,55 +36,63 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
 
     @Override
     public void onBindViewHolder(@NonNull final EventHolder eventHolder, int i) {
-        ItemEvent event = EventHelper.get((String) EventHelper.list()[i]);
-        final int index = i;
+        // uid event in EVENT_MAP
+        String uid = (String) map.keySet().toArray()[i];
 
-        eventHolder.root.setOnClickListener(new View.OnClickListener() {
+        // data
+        EventModel event = map.get(uid);
 
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("event_uid", (String) EventHelper.list()[index]);
-
-                Log.i("MainActivity", "onClick: " + EventHelper.list()[index]);
-                Log.i("MainActivity", "onClick: " + index);
-
-                Intent intent = new Intent(eventHolder.root.getContext(), EventActivity.class);
-                intent.putExtras(bundle);
-                eventHolder.root.getContext().startActivity(intent);
-            }
-        });
-
+        // assign data
         Glide
                 .with(eventHolder.image.getContext())
                 .load(event.getImage())
                 .into(eventHolder.image);
 
         eventHolder.text_title.setText(event.getTitle());
-        eventHolder.text_date.setText(event.getDate_event().toString());
+        eventHolder.text_date.setText("Posted : " + event.getStart());
     }
 
     @Override
     public int getItemCount() {
-        return EventHelper.size();
+        return map.keySet().size();
     }
 
-    class EventHolder extends RecyclerView.ViewHolder {
+    public void setOnItemClick(OnItemClick click) {
+        this.onItemClick = click;
+    }
 
-        View root;
+    // adapter onItemClick callback
+    public interface OnItemClick {
+
+        void onItemClick(String uid);
+    }
+
+    // adapter view holder
+    class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView image;
+
         TextView text_title;
         TextView text_date;
 
         private EventHolder(@NonNull View itemView) {
             super(itemView);
 
-            root = itemView;
-
             image = itemView.findViewById(R.id.itemevent_image);
+
             text_title = itemView.findViewById(R.id.itemevent_text_title);
             text_date = itemView.findViewById(R.id.itemevent_text_date);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            // uid event in EVENT_MAP
+            String uid = (String) map.keySet().toArray()[getAdapterPosition()];
+
+            // do the callback
+            if (onItemClick != null) onItemClick.onItemClick(uid);
         }
     }
 }
