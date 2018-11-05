@@ -17,6 +17,9 @@ import com.example.robin.sukarela.MainActivity;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.model.EventModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 
 public class DetailFragment extends Fragment {
 
@@ -57,8 +60,8 @@ public class DetailFragment extends Fragment {
     }
 
     private void updateUI(EventModel event) {
-
-
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
 
         Glide
                 .with(image_event.getContext())
@@ -66,6 +69,8 @@ public class DetailFragment extends Fragment {
                 .into(image_event);
 
         text_description.setText(event.getDescription());
-        text_location.setText("Johorian");
+        text_date.setText(date.format(event.getEnd()));
+        text_time.setText(time.format(event.getEnd()));
+        text_location.setText(event.getLocation());
     }
 }

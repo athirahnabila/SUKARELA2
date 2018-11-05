@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,100 +8,37 @@
     tools:context=".event.ContactFragment">
 
     <ImageView
-        android:id="@+id/ivphone"
-        android:layout_width="71dp"
-        android:layout_height="68dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="13dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="27dp"
-        android:src="@mipmap/ic_phone"
-        app:layout_constraintBottom_toTopOf="@+id/ivws"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/ivtele"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-
+        android:id="@+id/contact_image"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="29dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="29dp"
-        android:src="@drawable/telegram"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivws" />
+        android:layout_margin="26dp"
+        android:contentDescription="@string/text_description" />
 
-    <ImageView
-        android:id="@+id/ivws"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="19dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/whatsapp"
-        app:layout_constraintBottom_toTopOf="@+id/ivtele"
-        app:layout_constraintEnd_toStartOf="@+id/textView3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivphone" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="116dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="42dp"
-        android:layout_marginEnd="143dp"
-        android:layout_marginRight="143dp"
-        android:layout_marginTop="36dp"
-        android:text="03-80626147"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivphone"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="0dp"
-        android:layout_height="44dp"
-        android:layout_marginBottom="49dp"
-        android:layout_marginEnd="143dp"
-        android:layout_marginRight="143dp"
-        android:text="0193265210"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivws"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/textView4"
+    <LinearLayout
+        android:id="@+id/contact_container_1"
         android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:layout_marginBottom="7dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="MUSLIMVOLUNTEERMALAYSIA"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivtele"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contact_image"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_mvm"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/blue_900"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_caption"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+</RelativeLayout>

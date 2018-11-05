@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.robin.sukarela.R;
-import com.example.robin.sukarela.model.ItemProfile;
+import com.example.robin.sukarela.model.ProfileModel;
 
 
 public class ProfileFragment extends Fragment {
@@ -20,7 +20,7 @@ public class ProfileFragment extends Fragment {
     EditText mEditText_contact;
 
     // data
-    ItemProfile profile = ItemProfile.USER_PROFILE;
+    ProfileModel profile = ProfileModel.USER_PROFILE;
 
 
     public ProfileFragment() {

@@ -1,10 +1,12 @@
 package com.example.robin.sukarela;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,9 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Transaction;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -115,58 +115,8 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
                     finish();
 
                 } else {
-                    // for user
-                    final DocumentReference doc = firestore
-                            .collection("events")
-                            .document(event_uid);
 
-                    firestore.runTransaction(new Transaction.Function<EventModel>() {
-
-                        @Override
-                        public EventModel apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-                            // user that wan to edit this status
-                            String user_uid = auth.getUid();
-
-                            // read database first
-                            EventModel event = transaction.get(doc).toObject(EventModel.class);
-
-                            // event must not null
-                            assert event != null;
-
-                            // check current selected action is join or cancel
-                            if (event.isStatus()) {
-                                // is true, it means current action is cancel
-                                event.getJoin_list().remove(user_uid);
-
-                            } else {
-                                // caution step
-                                if (event.getJoin_list().contains(user_uid)) return event;
-
-                                // is false, it means current action is join
-                                event.getJoin_list().add(user_uid);
-                            }
-
-                            // write database second
-                            transaction.update(doc, "join_list", event.getJoin_list());
-
-                            // return event
-                            return event;
-                        }
-                    })
-                            .addOnCompleteListener(new OnCompleteListener<EventModel>() {
-                                @Override
-                                public void onComplete(@NonNull Task<EventModel> task) {
-                                    EventModel eventModel = task.getResult();
-
-                                    // check complete on success or fail
-                                    if (task.isSuccessful()) {
-                                        assert eventModel != null;
-
-                                        updateUI(eventModel);
-                                        Log.i(TAG, "onComplete: Join event is " + eventModel.isStatus());
-                                    }
-                                }
-                            });
+                    showDialogTask();
                 }
                 break;
         }
@@ -249,6 +199,83 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
     private void updateUI(@NonNull EventModel event) {
 
         menuItem.setTitle(event.isStatus() ? R.string.text_cancel : R.string.text_join);
+    }
+
+    private void showDialogTask() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(MainActivity.EVENT_MAP.get(event_uid).isStatus() ? R.string.dialog_message_cancel_task : R.string.dialog_message_do_task );
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                toggleJoiningTask();
+            }
+        });
+        builder.setNegativeButton(R.string.dialog_negative, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void toggleJoiningTask(){
+        // for user
+        final DocumentReference doc = firestore
+                .collection("events")
+                .document(event_uid);
+
+        firestore.runTransaction(new Transaction.Function<EventModel>() {
+
+            @Override
+            public EventModel apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                // user that wan to edit this status
+                String user_uid = auth.getUid();
+
+                // read database first
+                EventModel event = transaction.get(doc).toObject(EventModel.class);
+
+                // event must not null
+                assert event != null;
+
+                // check current selected action is join or cancel
+                if (event.isStatus()) {
+                    // is true, it means current action is cancel
+                    event.getJoin_list().remove(user_uid);
+
+                } else {
+                    // caution step
+                    if (event.getJoin_list().contains(user_uid)) return event;
+
+                    // is false, it means current action is join
+                    event.getJoin_list().add(user_uid);
+                }
+
+                // write database second
+                transaction.update(doc, "join_list", event.getJoin_list());
+
+                // return event
+                return event;
+            }
+        })
+                .addOnCompleteListener(new OnCompleteListener<EventModel>() {
+                    @Override
+                    public void onComplete(@NonNull Task<EventModel> task) {
+                        EventModel eventModel = task.getResult();
+
+                        // check complete on success or fail
+                        if (task.isSuccessful()) {
+                            assert eventModel != null;
+
+                            updateUI(eventModel);
+                            Log.i(TAG, "onComplete: Join event is " + eventModel.isStatus());
+                        }
+                    }
+                });
     }
 
     private ListenerRegistration createTaskListener(String event_uid) {

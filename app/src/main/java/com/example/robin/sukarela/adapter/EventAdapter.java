@@ -13,6 +13,8 @@ import com.example.robin.sukarela.MainActivity;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.model.EventModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Map;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder> {
@@ -41,6 +43,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
 
         // data
         EventModel event = map.get(uid);
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss a", Locale.ENGLISH);
+
+        String str_time = "Masa: " + time.format(event.getEnd());
+        String str_date = "Tarikh: " + date.format(event.getEnd());
+        String str_location = "Tempat: " + event.getLocation();
 
         // assign data
         Glide
@@ -48,8 +56,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
                 .load(event.getImage())
                 .into(eventHolder.image);
 
-        eventHolder.text_title.setText(event.getTitle());
-        eventHolder.text_date.setText("Posted : " + event.getStart());
+        eventHolder.title.setText(event.getTitle());
+        eventHolder.date.setText(str_date);
+        eventHolder.time.setText(str_time);
+        eventHolder.location.setText(str_location);
     }
 
     @Override
@@ -72,16 +82,20 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventHolder>
 
         ImageView image;
 
-        TextView text_title;
-        TextView text_date;
+        TextView title;
+        TextView date;
+        TextView time;
+        TextView location;
 
         private EventHolder(@NonNull View itemView) {
             super(itemView);
 
             image = itemView.findViewById(R.id.itemevent_image);
 
-            text_title = itemView.findViewById(R.id.itemevent_text_title);
-            text_date = itemView.findViewById(R.id.itemevent_text_date);
+            title = itemView.findViewById(R.id.itemevent_text_title);
+            time = itemView.findViewById(R.id.itemevent_text_time);
+            date = itemView.findViewById(R.id.itemevent_text_date);
+            location = itemView.findViewById(R.id.itemevent_text_location);
 
             itemView.setOnClickListener(this);
         }

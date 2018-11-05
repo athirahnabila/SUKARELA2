@@ -19,6 +19,7 @@ public class EventModel {
     private String title;
     private String description;
     private String image;
+    private String location;
 
     private Date start;
     private Date end;
@@ -65,6 +66,14 @@ public class EventModel {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Date getStart() {

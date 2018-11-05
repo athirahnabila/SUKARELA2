@@ -19,7 +19,7 @@ import com.example.robin.sukarela.main.HomeFragment;
 import com.example.robin.sukarela.main.JoinFragment;
 import com.example.robin.sukarela.main.ProfileFragment;
 import com.example.robin.sukarela.model.EventModel;
-import com.example.robin.sukarela.model.ItemProfile;
+import com.example.robin.sukarela.model.ProfileModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements EventAdapter.OnIt
                             if (task.isSuccessful()) {
 
                                 if (snapshot != null && snapshot.exists()) {
-                                    ItemProfile profile = ItemProfile.USER_PROFILE;
+                                    ProfileModel profile = ProfileModel.USER_PROFILE;
                                     profile.setName(snapshot.getString("name"));
                                     profile.setContact(snapshot.getString("contact"));
                                     profile.setAge(10);
@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements EventAdapter.OnIt
             toolbar.setSubtitle("Sign in is needed");
         } else {
             bottomNavigationView.setVisibility(View.VISIBLE);
-            toolbar.setSubtitle("Welcome, " + ItemProfile.USER_PROFILE.getName() + "...");
+            toolbar.setSubtitle("Welcome, " + ProfileModel.USER_PROFILE.getName() + "...");
         }
     }
 }

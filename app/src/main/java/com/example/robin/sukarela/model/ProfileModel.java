@@ -1,8 +1,8 @@
 package com.example.robin.sukarela.model;
 
-public class ItemProfile {
+public class ProfileModel {
 
-    public static final ItemProfile USER_PROFILE = new ItemProfile();
+    public static final ProfileModel USER_PROFILE = new ProfileModel();
 
     private String name;
     private String image;
