@@ -39,6 +39,4 @@
             android:text="@string/text_caption"
             android:textSize="16sp" />
     </LinearLayout>
-
-
 </RelativeLayout>
