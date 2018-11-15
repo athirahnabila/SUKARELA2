@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.robin.sukarela.adapter.DetailTabAdapter;
 import com.example.robin.sukarela.adapter.TaskAdapter;
@@ -115,7 +116,6 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
                     finish();
 
                 } else {
-
                     showDialogTask();
                 }
                 break;
@@ -202,8 +202,17 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
     }
 
     private void showDialogTask() {
+        EventModel model = MainActivity.EVENT_MAP.get(event_uid);
+
+        if (model.getStatus()){
+            Toast.makeText(this, "Event already past!", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(MainActivity.EVENT_MAP.get(event_uid).isJoined() ? R.string.dialog_message_cancel_task : R.string.dialog_message_do_task );
+        builder.setMessage(model.isJoined() ? R.string.dialog_message_cancel_task : R.string.dialog_message_do_task );
         builder.setCancelable(false);
         builder.setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {
 

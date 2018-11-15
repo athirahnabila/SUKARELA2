@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements EventAdapter.OnIt
 
                                             // cast data snapshot into data model
                                             EventModel eventModel = snapshot.toObject(EventModel.class);
+                                            eventModel.setUid(snapshot.getId());
 
                                             // add item
                                             EVENT_MAP.put(snapshot.getId(), eventModel);

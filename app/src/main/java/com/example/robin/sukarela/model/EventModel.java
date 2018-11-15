@@ -1,7 +1,5 @@
 package com.example.robin.sukarela.model;
 
-import android.support.annotation.NonNull;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.Exclude;
@@ -14,6 +12,7 @@ import java.util.Map;
 public class EventModel {
 
     private Map<String, String> task_assign;
+    private String uid;
 
     private List<String> join_list;
 
@@ -97,7 +96,7 @@ public class EventModel {
         this.end = end;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 
@@ -113,6 +112,10 @@ public class EventModel {
         this.coord = coord;
     }
 
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     @Exclude
     public boolean isJoined() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -123,12 +126,6 @@ public class EventModel {
 
     @Override
     public String toString() {
-        return "EventModel{" +
-                "join_list=" + join_list +
-                ", title='" + title + '\'' +
-                ", image='" + image + '\'' +
-                ", start=" + start +
-                ", end=" + end +
-                '}';
+        return uid;
     }
 }

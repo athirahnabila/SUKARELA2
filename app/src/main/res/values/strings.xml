@@ -31,7 +31,6 @@
     <string name="text_hint_age">Age</string>
     <string name="text_hint_contact">Contact</string>
     <string name="text_update">update</string>
-    <string name="text_completed_date">Completed : 17/10/2018</string>
     <string name="text_completed_title">Save Mother Earth</string>
     <string name="text_detail">details</string>
     <string name="main_option_text_signout">Sign out</string>
@@ -47,4 +46,6 @@
     <string name="text_mvm">Muslim Volunteer Malaysia</string>
     <string name="text_caption">Today help, for better tomorrow.</string>
     <string name="text_view_location">view location on map</string>
+    <string name="text_finish">finish</string>
+    <string name="text_ongoing">ongoing</string>
 </resources>

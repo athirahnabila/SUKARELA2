@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mainfragment.JoinFragment">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/join_tab"
+    <LinearLayout
+        android:id="@+id/join_container_1"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="?attr/colorPrimary"
-        app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="#ccffffff" />
+        android:orientation="horizontal">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/join_viewpager"
+        <Button
+            android:id="@+id/join_button_1"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/text_finish"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/join_button_2"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/text_ongoing"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/join_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/join_tab" />
+        android:layout_below="@id/join_container_1" />
 </RelativeLayout>
