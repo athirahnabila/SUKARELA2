@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,10 @@ public class EventModel {
     private String description;
     private String image;
     private String location;
+
+    private boolean status;
+
+    private GeoPoint coord;
 
     private Date start;
     private Date end;
@@ -92,8 +97,24 @@ public class EventModel {
         this.end = end;
     }
 
-    @Exclude
     public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public GeoPoint getCoord() {
+        return coord;
+    }
+
+    public void setCoord(GeoPoint coord) {
+        this.coord = coord;
+    }
+
+    @Exclude
+    public boolean isJoined() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) return join_list.contains(user.getUid());

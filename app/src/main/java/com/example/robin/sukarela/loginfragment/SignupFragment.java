@@ -1,4 +1,4 @@
-package com.example.robin.sukarela.login;
+package com.example.robin.sukarela.loginfragment;
 
 
 import android.os.Bundle;
@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 
 import com.example.robin.sukarela.R;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SigninFragment extends Fragment {
+public class SignupFragment extends Fragment {
 
 
-    public SigninFragment() {
+    public SignupFragment() {
         // Required empty public constructor
     }
 
@@ -25,6 +26,6 @@ public class SigninFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_signin, container, false);
+        return inflater.inflate(R.layout.fragment_signup, container, false);
     }
 }

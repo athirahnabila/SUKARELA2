@@ -46,4 +46,5 @@
     <string name="text_location">Tempat: Masjid Istiqamah</string>
     <string name="text_mvm">Muslim Volunteer Malaysia</string>
     <string name="text_caption">Today help, for better tomorrow.</string>
+    <string name="text_view_location">view location on map</string>
 </resources>

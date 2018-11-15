@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.robin.sukarela.login.SignupFragment;
-import com.example.robin.sukarela.login.SigninFragment;
+import com.example.robin.sukarela.loginfragment.SignupFragment;
+import com.example.robin.sukarela.loginfragment.SigninFragment;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.robin.sukarela.event.ContactFragment;
-import com.example.robin.sukarela.event.DetailFragment;
-import com.example.robin.sukarela.event.TaskFragment;
+import com.example.robin.sukarela.eventfragment.ContactFragment;
+import com.example.robin.sukarela.eventfragment.DetailFragment;
+import com.example.robin.sukarela.eventfragment.TaskFragment;
 
 import java.util.ArrayList;
 import java.util.List;

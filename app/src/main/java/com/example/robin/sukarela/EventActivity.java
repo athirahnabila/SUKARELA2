@@ -198,12 +198,12 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
 
     private void updateUI(@NonNull EventModel event) {
 
-        menuItem.setTitle(event.isStatus() ? R.string.text_cancel : R.string.text_join);
+        menuItem.setTitle(event.isJoined() ? R.string.text_cancel : R.string.text_join);
     }
 
     private void showDialogTask() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(MainActivity.EVENT_MAP.get(event_uid).isStatus() ? R.string.dialog_message_cancel_task : R.string.dialog_message_do_task );
+        builder.setMessage(MainActivity.EVENT_MAP.get(event_uid).isJoined() ? R.string.dialog_message_cancel_task : R.string.dialog_message_do_task );
         builder.setCancelable(false);
         builder.setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {
 
@@ -243,7 +243,7 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
                 assert event != null;
 
                 // check current selected action is join or cancel
-                if (event.isStatus()) {
+                if (event.isJoined()) {
                     // is true, it means current action is cancel
                     event.getJoin_list().remove(user_uid);
 
@@ -272,7 +272,7 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
                             assert eventModel != null;
 
                             updateUI(eventModel);
-                            Log.i(TAG, "onComplete: Join event is " + eventModel.isStatus());
+                            Log.i(TAG, "onComplete: Join event is " + eventModel.isJoined());
                         }
                     }
                 });

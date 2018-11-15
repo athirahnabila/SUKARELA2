@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="18dp"
-    tools:context=".event.DetailFragment">
+    tools:context=".eventfragment.DetailFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,9 +14,9 @@
             android:id="@+id/image_event"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:scaleType="centerCrop"
             android:layout_alignParentTop="true"
-            android:contentDescription="@string/text_description" />
+            android:contentDescription="@string/text_description"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/text_description"
@@ -28,6 +28,7 @@
             android:textSize="16sp" />
 
         <LinearLayout
+            android:id="@+id/detail_container_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_description"
@@ -58,5 +59,15 @@
                 android:drawableStart="@drawable/ic_location_on_black_24dp"
                 android:drawableLeft="@drawable/ic_location_on_black_24dp" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/detail_btn_map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_container_1"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_verification"
+            android:text="@string/text_view_location"
+            android:textColor="@color/white" />
     </RelativeLayout>
 </ScrollView>

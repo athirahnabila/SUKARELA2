@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.JoinFragment">
+    tools:context=".mainfragment.JoinFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/join_recyclerview"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/join_tab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</FrameLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="#ccffffff" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/join_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/join_tab" />
+</RelativeLayout>

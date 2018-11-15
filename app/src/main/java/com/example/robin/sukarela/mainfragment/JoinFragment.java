@@ -1,23 +1,29 @@
-package com.example.robin.sukarela.main;
+package com.example.robin.sukarela.mainfragment;
 
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.robin.sukarela.R;
+import com.example.robin.sukarela.adapter.JoinAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class JoinFragment extends Fragment {
 
-    RecyclerView mRecyclerView;
+    // declare component
+    JoinAdapter joinAdapter;
+
+    // declare child view
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
 
     public JoinFragment() {
         // Required empty public constructor
@@ -35,13 +41,21 @@ public class JoinFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        JoinItemAdapter adapter = new JoinItemAdapter(ItemEvent.EVENTS);
-//        LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
-//        DividerItemDecoration decoration = new DividerItemDecoration(view.getContext(), manager.getOrientation());
-//
-//        mRecyclerView = view.findViewById(R.id.join_recyclerview);
-//        mRecyclerView.setAdapter(adapter);
-//        mRecyclerView.setLayoutManager(manager);
-//        mRecyclerView.addItemDecoration(decoration);
+        // initialize child view
+        tabLayout = view.findViewById(R.id.join_tab);
+        viewPager = view.findViewById(R.id.join_viewpager);
+
+        // initialize component
+        joinAdapter = new JoinAdapter(getFragmentManager());
+
+        initUI();
+    }
+
+    private void initUI() {
+        // setup viewPager
+        viewPager.setAdapter(joinAdapter);
+
+        // setup tabLayout
+        tabLayout.setupWithViewPager(viewPager);
     }
 }

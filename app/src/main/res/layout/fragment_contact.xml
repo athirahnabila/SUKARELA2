@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="100dp"
     android:orientation="vertical"
-    tools:context=".event.ContactFragment">
+    tools:context=".eventfragment.ContactFragment">
 
     <ImageView
         android:id="@+id/contact_image"

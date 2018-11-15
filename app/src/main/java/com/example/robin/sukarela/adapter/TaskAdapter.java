@@ -47,7 +47,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskVH> {
         TaskModel task = EventActivity.TASK_MODEL_MAP.get(task_uid);
 
         if (event != null) {
-            boolean status_join = event.isStatus();
+            boolean status_join = event.isJoined();
 
             // fill task data
             taskVH.title.setText(task.getTitle());

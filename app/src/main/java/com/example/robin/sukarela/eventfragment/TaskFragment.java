@@ -1,4 +1,4 @@
-package com.example.robin.sukarela.event;
+package com.example.robin.sukarela.eventfragment;
 
 
 import android.os.Bundle;

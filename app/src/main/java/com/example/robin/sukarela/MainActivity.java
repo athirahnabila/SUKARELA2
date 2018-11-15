@@ -1,6 +1,7 @@
 package com.example.robin.sukarela;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,9 +16,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.robin.sukarela.adapter.EventAdapter;
-import com.example.robin.sukarela.main.HomeFragment;
-import com.example.robin.sukarela.main.JoinFragment;
-import com.example.robin.sukarela.main.ProfileFragment;
+import com.example.robin.sukarela.mainfragment.HomeFragment;
+import com.example.robin.sukarela.mainfragment.JoinFragment;
+import com.example.robin.sukarela.mainfragment.ProfileFragment;
 import com.example.robin.sukarela.model.EventModel;
 import com.example.robin.sukarela.model.ProfileModel;
 import com.google.android.gms.tasks.OnCompleteListener;
