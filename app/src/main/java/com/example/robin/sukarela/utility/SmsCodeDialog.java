@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.robin.sukarela.R;
+import com.github.glomadrian.codeinputlib.CodeInput;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -31,19 +32,21 @@ public class SmsCodeDialog implements View.OnClickListener {
 
     // declare view
     private View root;
+    private CodeInput codeInput;
     private Button submit;
 
     // firebase
     private FirebaseAuth auth;
     private Task<AuthResult> task;
 
-    public SmsCodeDialog(Activity activity, String phone) {
+    protected SmsCodeDialog(Activity activity, String phone) {
         // initialize component
         this.activity = activity;
         this.phone = phone;
 
         // initialize view
         root = LayoutInflater.from(activity).inflate(R.layout.dialog_login, null);
+        codeInput = root.findViewById(R.id.dialog_login_code);
         submit = root.findViewById(R.id.dialog_login_button);
         submit.setOnClickListener(this);
 
@@ -88,7 +91,18 @@ public class SmsCodeDialog implements View.OnClickListener {
             public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
 
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(s, "123456");
+                // confirmation code
+                String code = "";
+
+                for (Character character : codeInput.getCode()){
+                    code = code + character;
+                }
+
+                Log.i(TAG, "onCodeSent: " + code);
+
+                if (code.isEmpty()) return;
+
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(s, code);
 
                 // sign in
                 task = auth.signInWithCredential(credential);

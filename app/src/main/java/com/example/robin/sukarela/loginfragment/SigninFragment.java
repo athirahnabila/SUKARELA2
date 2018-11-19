@@ -1,6 +1,7 @@
 package com.example.robin.sukarela.loginfragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.robin.sukarela.MainActivity;
 import com.example.robin.sukarela.R;
 import com.example.robin.sukarela.utility.SmsCodeDialog;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,6 +63,12 @@ public class SigninFragment extends Fragment implements View.OnClickListener {
             @Override
             public void success(FirebaseUser user) {
                 super.success(user);
+
+                if (getActivity() != null){
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
             }
 
             @Override
@@ -69,5 +77,7 @@ public class SigninFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "Verification is fail!", Toast.LENGTH_SHORT).show();
             }
         };
+
+        dialog.show();
     }
 }

@@ -16,6 +16,7 @@
         android:textSize="14sp" />
 
     <com.github.glomadrian.codeinputlib.CodeInput
+        android:id="@+id/dialog_login_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp"
