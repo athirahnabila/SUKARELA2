@@ -210,7 +210,6 @@ public class EventActivity extends AppCompatActivity implements EventListener<Qu
             return;
         }
 
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(model.isJoined() ? R.string.dialog_message_cancel_task : R.string.dialog_message_do_task );
         builder.setCancelable(false);

@@ -15,11 +15,25 @@
         android:text="@string/description_signin" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/signin_field_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="@string/text_phone"
         android:inputType="phone"
+        android:text="+60 12-345 6789"
         app:met_floatingLabel="highlight"
         app:met_floatingLabelText="@string/text_float_mobile" />
+
+
+    <Button
+        android:id="@+id/signin_button_submit"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_login"
+        android:text="@string/text_signin"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center"
+        android:textColor="@drawable/button_login_text" />
 </LinearLayout>
