@@ -48,4 +48,6 @@
     <string name="text_view_location">view location on map</string>
     <string name="text_finish">finish</string>
     <string name="text_ongoing">ongoing</string>
+    <string name="text_call">Call Us</string>
+    <string name="text_whatsapp">Whatsapp Us</string>
 </resources>

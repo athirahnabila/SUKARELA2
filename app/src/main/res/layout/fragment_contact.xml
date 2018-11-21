@@ -38,5 +38,21 @@
             android:layout_height="wrap_content"
             android:text="@string/text_caption"
             android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/contact_button_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="@string/text_call" />
+
+        <Button
+            android:id="@+id/contact_button_whatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:text="@string/text_whatsapp" />
     </LinearLayout>
 </RelativeLayout>
