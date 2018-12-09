@@ -5,5 +5,10 @@
     <item
         android:id="@+id/action_join"
         android:title="@string/text_join"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_notification"
+        android:title="@string/text_notification"
+        app:showAsAction="never" />
 </menu>

@@ -83,9 +83,12 @@ public class DetailFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                String uri = "http://maps.google.com/maps?daddr=" + event.getCoord().getLatitude() + "," + event.getCoord().getLongitude();
-                Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                startActivity(intent);
+
+                if (event.getCoord() != null) {
+                    String uri = "http://maps.google.com/maps?daddr=" + event.getCoord().getLatitude() + "," + event.getCoord().getLongitude();
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    startActivity(intent);
+                }
             }
         });
     }
